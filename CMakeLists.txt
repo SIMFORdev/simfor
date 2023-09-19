@@ -44,7 +44,12 @@ if (SIMFOR_BUILD_TESTS)
 endif ()
 
 if (SIMFOR_BUILD_EXAMPLES)
-    add_subdirectory(examples/example)
+    include(cmake/utils.cmake)
+    set(EXAMPLES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/examples")
+    subdirlist(SUBDIRS ${EXAMPLES_DIR})
+    foreach (subdir ${SUBDIRS})
+        add_subdirectory("${EXAMPLES_DIR}/${subdir}")
+    endforeach ()
 endif ()
 
 if (SIMFOR_BUILD_DOCS)
