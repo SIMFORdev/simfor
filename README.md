@@ -86,3 +86,14 @@ src/
     ...
 CMakeLists.txt                 <- корневой CMakeLists.txt
 ```
+
+## Сборка и запуск для разработчиков
+```shell
+mkdir build
+cd build
+cmake ..
+make
+# Пусть наша папка в которой мы работаем называется examples/SomeClassTest.
+cd examples/SomeClassTest
+./SomeClassTest
+```
