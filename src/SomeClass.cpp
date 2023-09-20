@@ -6,6 +6,10 @@
 
 #include <iostream>
 
+namespace simfor {
+
 void SomeClass::HelloWorld() {
 	std::cout << "Hello world\n";
+}
+
 }

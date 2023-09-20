@@ -8,6 +8,10 @@ option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
 option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
 option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
 
+find_package(Boost 1.83.0 REQUIRED)
+
+include_directories(${Boost_INCLUDE_DIR})
+
 add_library(${PROJECT_NAME})
 
 add_compile_options(-O3)
