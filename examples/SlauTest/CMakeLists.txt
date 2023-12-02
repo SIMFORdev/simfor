@@ -3,9 +3,22 @@ project(SlauTest)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(OpenMP REQUIRED)
+set(SLAU_EXE_FILES
+    GaussExe.cpp
+    ZeidelExe.cpp
+    LUdecompExe.cpp
+    SimpleIterExe.cpp
+    GradientsExe.cpp
+)
 
-if (OpenMP_CXX_FOUND)
-    add_executable(GaussOmp GaussOmpExe.cpp)
-    target_link_libraries(GaussOmp PUBLIC simfor OpenMP::OpenMP_CXX)
-endif(OpenMP_CXX_FOUND)
+foreach(EXE ${SLAU_EXE_FILES})
+    string(REPLACE ".cpp" "" EXE_NAME ${EXE})
+    add_executable(${EXE_NAME} ${EXE})
+    target_link_libraries(${EXE_NAME} PUBLIC simfor)
+endforeach()
+
+
+#TODO
+# find_package(OpenMP REQUIRED)
+# if (OpenMP_CXX_FOUND)
+# endif(OpenMP_CXX_FOUND)

@@ -1,4 +1,3 @@
-#include <iostream>
 #include "simfor/GaussOmp.hpp"
 
 simfor::matr genMatNMB(int n){
@@ -41,7 +40,7 @@ int main(int argc, char const *argv[])
 
     simfor::matr myMatA = genMatNMB(N);
 
-    simfor::vec resVec = simfor::GaussianElimination(myMatA, N);
+    simfor::vec resVec = simfor::GaussianEliminationOmp(myMatA, N);
 
     std::cout << "Answer: " << [resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
 

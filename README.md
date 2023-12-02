@@ -10,7 +10,7 @@
 5) Там необходимо создать одноименный `.cpp` файл, например `example.cpp`,
 и `CMakeLists.txt` файл. Его содержание скопировать от сюда:
 ```cmake
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.21)
 project(example)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
 - Создаем `CMakeLists.txt` и заполняем его, не забывая изменить `project` и 
 `add_executable`.
 ```cmake
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.21)
 project(SomeClassTest)
 
 set(CMAKE_CXX_STANDARD 17)

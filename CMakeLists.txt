@@ -19,7 +19,11 @@ add_compile_options(-O3)
 set(SIMFOR_INCLUDES
         # Public API includes
         include/simfor/SomeClass.hpp
-        include/simfor/GaussOmp.hpp
+        include/simfor/Gauss.hpp
+        include/simfor/Zeidel.hpp
+        include/simfor/LUdecomp.hpp        
+        include/simfor/SimpleIter.hpp
+        include/simfor/Gradients.hpp
         # Private API includes
         include/simfor/internal/types.hpp
 )
@@ -27,7 +31,11 @@ set(SIMFOR_INCLUDES
 set(SIMFOR_SOURCES
         ${SIMFOR_INCLUDES}
         src/SomeClass.cpp
-        src/GaussOmp.cpp
+        src/Gauss.cpp
+        src/Zeidel.cpp
+        src/LUdecomp.cpp
+        src/SimpleIter.cpp
+        src/Gradients.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})
@@ -43,8 +51,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
-
-target_compile_options(${PROJECT_NAME} PUBLIC ${OpenMP_CXX_FLAGS})
 
 if (SIMFOR_BUILD_TESTS)
     enable_testing()
