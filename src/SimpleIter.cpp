@@ -9,32 +9,32 @@ namespace simfor{
         long double sum{};
         
         for (auto i = 0; i < N; i++){
-            x[i] = vecB[i] / mat(i,i);
+            x(i) = vecB(i) / mat(i,i);
         }
 
         do{
             // flag = 1;
             for(auto i = 0; i < N; i++){
-                x_n[i] = vecB[i] / mat(i,i);
+                x_n(i) = vecB(i) / mat(i,i);
                 for(auto j = 0; j < N; j++){
                     if (i == j)
                         continue;
                     else {
-                        x_n[i] -= mat(i,j) / mat(i,i) * x[j];
+                        x_n(i) -= mat(i,j) / mat(i,i) * x(j);
                     };
                 }
             }
 
             int flag = 1;
             for(auto i = 0; i < N-1; i++){
-                if (std::abs(x_n[i] - x[i]) > eps){
+                if (std::abs(x_n(i) - x(i)) > eps){
                     flag = 0;
                     break;
                 }
             }
 
             for (auto i = 0; i < N; i++){
-                x[i] = x_n[i];
+                x(i) = x_n(i);
             }
 
             if (flag) break;

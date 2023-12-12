@@ -42,17 +42,17 @@ int main(int argc, char** argv){
     simfor::matr myMat(5, 5);
     simfor::vec myVec(5);
 
-    std::vector<simfor::vec> myMatB = {{32, 2, 1, 3, 1},
+    std::vector<std::vector<double>> myMatB = {{32, 2, 1, 3, 1},
                     {1, 8, 3, 1, 3},
                     {1, 2, 16, 3, 1},   
                     {1, 2, 3, 56, 1},  
                     {1, 2, 1, 3, 32}};
-    simfor::vec myVecB = {43, 14, -3, 169, -13};
+    std::vector<double> myVecB = {43, 14, -3, 169, -13};
     for (auto i = 0; i < myMatB.size(); i++){
         for (auto j = 0; j < myMatB[i].size(); j++){
             myMat(i, j) = myMatB[i][j];
         }
-        myVec[i] = myVecB[i];
+        myVec(i) = myVecB[i];
     }
 
     simfor::vec resVec = simfor::SimpleIterOmp(myMat, myVec, N);

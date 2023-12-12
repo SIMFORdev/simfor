@@ -26,15 +26,16 @@ int main(int argc, char const *argv[])
     const auto N = 5;
 
     //Наша исходная матрица и вектор свободных чисел 
-    std::vector<simfor::vec> myMatB = {{32, 2, 1, 3, 1},
+    std::vector<std::vector<double>> myMatB = {{32, 2, 1, 3, 1},
                     {1, 8, 3, 1, 3},
                     {1, 2, 16, 3, 1},   
                     {1, 2, 3, 56, 1},  
                     {1, 2, 1, 3, 32}};
-    simfor::vec myVecB = {43, 14, -3, 169, -13};
+    std::vector<double> myVecB = {43, 14, -3, 169, -13};
     
     //Матрица вида A необходима для работы функции GaussianElimination
     simfor::matr myMatA(N, N);
+    simfor::vec myVecA(N);
 
     //Копируем значения
     for (auto i = 0; i < myMatB.size(); i++){
@@ -45,7 +46,7 @@ int main(int argc, char const *argv[])
 
     // simfor::matr myMatA = genMatNMB(N);
 
-    simfor::vec resVec = simfor::ZeidelOmp(myMatA, myVecB, N);
+    simfor::vec resVec = simfor::ZeidelOmp(myMatA, myVecA, N);
 
     std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
 

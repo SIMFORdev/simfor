@@ -10,18 +10,18 @@ namespace simfor{
 
         #pragma omp parallel for default(none) shared(N, vecB, mat, x) private(i)
         for (i = 0; i < N; i++){
-            x[i] = vecB[i] / mat(i,i);
+            x[i] = vecB(i) / mat(i,i);
         }
 
         //start
         do{
             #pragma omp parallel for default(shared) private(i)
             for(i = 0; i < N; i++){
-                x_n[i] = vecB[i] / mat(i,i);
+                x_n(i) = vecB(i) / mat(i,i);
                 #pragma omp simd// parallel for default(shared) private(j)
                 for(j = 0; j < N; j++){
                     if (i != j){
-                        x_n[i] -= mat(i,j) / mat(i,i) * x[j];
+                        x_n(i) -= mat(i,j) / mat(i,i) * x(j);
                     }
                 }
             }
@@ -30,7 +30,7 @@ namespace simfor{
 
             #pragma omp parallel for default(none) shared(N, x, x_n, eps, flag) private(i)
             for(i = 0; i < N-1; i++){
-                if (std::abs(x_n[i] - x[i]) > eps){
+                if (std::abs(x_n(i) - x(i)) > eps){
                     flag = 0;
                     i = N;
                     // break;
@@ -39,7 +39,7 @@ namespace simfor{
 
             #pragma omp parallel for default(none) shared(N, x, x_n) private(i)
             for (i = 0; i < N; i++){
-                x[i] = x_n[i];
+                x(i) = x_n(i);
             }
 
             if (flag) break;

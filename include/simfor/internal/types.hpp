@@ -9,7 +9,7 @@
 #include <vector>
 
 namespace simfor {
-    using vec = std::vector<double>;
+    using vec = boost::numeric::ublas::vector<double>;
     using matr = boost::numeric::ublas::matrix<double>;
 }
 

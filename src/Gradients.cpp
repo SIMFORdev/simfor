@@ -61,9 +61,9 @@ namespace simfor{
       vec tmp(n);
       for (auto i = 0; i < n; i++){
          for (auto j = 0; j < n; j++){
-            tmp[j] = A(i, j);
+            tmp(j) = A(i, j);
          }
-         C[i] = innerProduct(tmp, V);
+         C(i) = innerProduct(tmp, V);
       }
       return C;
    }
@@ -80,7 +80,7 @@ namespace simfor{
    {
       auto n = U.size();
       vec W(n);
-      for (auto j = 0; j < n; j++ ) W[j] = a * U[j] + b * V[j];
+      for (auto j = 0; j < n; j++ ) W(j) = a * U(j) + b * V(j);
       return W;
    }
 

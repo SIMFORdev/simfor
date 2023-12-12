@@ -8,7 +8,7 @@ namespace simfor{
 
         #pragma omp parallel for private(i)
         for (i = 0; i <= N; i++)
-            P[i] = i; //Unit permutation matrix, P[N] initialized with N
+            P(i) = i; //Unit permutation matrix, P[N] initialized with N
 
         #pragma omp parallel for default(shared) private(i, maxA, imax, k, j)
         for (i = 0; i < N; i++) {
@@ -29,15 +29,15 @@ namespace simfor{
                 #pragma omp parallel
                 #pragma omp taskgroup
                 {
-                j = P[i];
-                P[i] = P[imax];
-                P[imax] = j;
+                j = P(i);
+                P(i) = P(imax);
+                P(imax) = j;
 
                 //pivoting rows of A
                 SwapRow(A, i, j, N);
 
                 //counting pivots starting from N (for determinant)
-                P[N]++;
+                P(N)++;
                 }
             }
 
@@ -60,20 +60,20 @@ namespace simfor{
         int i{}, k{};
         #pragma omp taskloop default(shared) private(i, k)
         for (i = 0; i < N; i++) {
-            x[i] = b[P[i]];
+            x(i) = b(P(i));
             #pragma omp taskloop default(shared) private(k)
             // #pragma omp simd order(concurrent) private(k)
             for (k = 0; k < i; k++)
-                x[i] -= A(i,k) * x[k];
+                x[i] -= A(i,k) * x(k);
         }
         #pragma omp taskloop default(shared) private(i, k)
         for (i = N - 1; i >= 0; i--) {
             #pragma omp taskloop default(shared) private(k)
             // #pragma omp simd order(concurrent) private(k)
             for (k = i + 1; k < N; k++)
-                x[i] -= A(i,k) * x[k];
+                x(i) -= A(i,k) * x(k);
 
-            x[i] /= A(i,i);
+            x(i) /= A(i,i);
         }
     }
 
@@ -95,7 +95,7 @@ namespace simfor{
     
         for (auto j = 0; j < N; j++) {
             for (auto i = 0; i < N; i++) {
-                IA(i,j) = P[i] == j ? 1.0 : 0.0;
+                IA(i,j) = P(i) == j ? 1.0 : 0.0;
 
                 for (auto k = 0; k < i; k++)
                     IA(i,j) -= A(i,k) * IA(k,j);
@@ -120,7 +120,7 @@ namespace simfor{
         for (auto i = 1; i < N; i++)
             det *= A(i,i);
 
-        return int(P[N] - N) % 2 == 0 ? det : -det;
+        return int(P(N) - N) % 2 == 0 ? det : -det;
     }
 
 }

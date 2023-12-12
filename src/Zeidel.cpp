@@ -14,12 +14,12 @@ namespace simfor{
 
         do{
             for(auto i = 0; i < N; i++){
-                x_n[i] = vecB[i];
+                x_n(i) = vecB(i);
                 for(auto j = 0; j < i; j++){
                     if (i == j)
                         continue;
                     else {
-                        x_n[i] -= mat(i,j) * x_n[j];
+                        x_n(i) -= mat(i,j) * x_n(j);
                     };
                 }
 
@@ -27,7 +27,7 @@ namespace simfor{
                     if (i == j)
                         continue;
                     else {
-                        x_n[i] -= mat(i,j) * x[j];
+                        x_n(i) -= mat(i,j) * x(j);
                     };
                 }
 
@@ -36,14 +36,14 @@ namespace simfor{
 
             int flag = 1;
             for(auto i = 0; i < N-1; i++){
-                if (fabsf64x(x_n[i] - x[i]) > eps){
+                if (fabsf64x(x_n(i) - x(i)) > eps){
                     flag = 0;
                     break;
                 }
             }
 
             for (auto i = 0; i < N; i++){
-                x[i] = x_n[i];
+                x(i) = x_n(i);
             }
 
             if (flag) break;

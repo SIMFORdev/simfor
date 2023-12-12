@@ -76,9 +76,9 @@ namespace simfor{
         for (i = 0; i < n; i++){
             #pragma omp parallel for private(j)
             for (j = 0; j < n; j++){
-                tmp[j] = A(i, j);
+                tmp(j) = A(i, j);
             }
-            C[i] = innerProduct(tmp, V);
+            C(i) = innerProduct(tmp, V);
         }
         return C;
     }
@@ -94,7 +94,7 @@ namespace simfor{
 
         #pragma omp parallel for private(i) reduction(+:res)
         for (i = 0; i < U.size(); i++){
-            res += U[i] * V[i];
+            res += U(i) * V(i);
         }
         
         return res;
@@ -107,7 +107,7 @@ namespace simfor{
         size_t i{};
 
         #pragma omp parallel for private(i) 
-        for (i = 0; i < n; i++ ) W[i] = a * U[i] + b * V[i];
+        for (i = 0; i < n; i++ ) W(i) = a * U(i) + b * V(i);
 
         return W;
     }
