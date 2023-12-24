@@ -9,6 +9,7 @@ set(SLAU_EXE_FILES
     LUdecompExe.cpp
     SimpleIterExe.cpp
     GradientsExe.cpp
+    TridiagonalExe.cpp
 )
 
 foreach(EXE ${SLAU_EXE_FILES})

@@ -24,6 +24,7 @@ set(SIMFOR_INCLUDES
         include/simfor/LUdecomp.hpp        
         include/simfor/SimpleIter.hpp
         include/simfor/Gradients.hpp
+        include/simfor/Tridiagonal.hpp
         # Private API includes
         include/simfor/internal/types.hpp
 )
@@ -36,6 +37,7 @@ set(SIMFOR_SOURCES
         src/LUdecomp.cpp
         src/SimpleIter.cpp
         src/Gradients.cpp
+        src/Tridiagonal.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})
