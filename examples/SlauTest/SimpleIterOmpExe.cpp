@@ -3,7 +3,7 @@
 // simfor::matr genMatNNB(int n){
 //         simfor::matr m(n, n);
 //         for(auto i=0;i<n;i++){
-//             for(auto j=0;j<n+1;j++){
+//             for(auto j=0;j<n;j++){
 //                 if (i==j)
 //                 {
 //                     m(i,j) = fabsf64x(rand()%10+11);
