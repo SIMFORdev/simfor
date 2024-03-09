@@ -1,4 +1,4 @@
-#include "simfor/GradientsOmp.hpp"
+#include "simfor/GradientsMpi.hpp"
 
 simfor::matr genMatNNB(int n){
         simfor::matr m(n, n);
@@ -22,6 +22,10 @@ simfor::vec genVecN(int n){
 }
 
 int main(int argc, char** argv){
+    namespace mt  = mpi::threading;
+    mpi::environment env (argc, argv, mt::multiple, 1);
+    mpi::communicator world;
+
 	const int N = 5;
     
     // simfor::matr Mat = genMatNNB(N);
@@ -54,8 +58,8 @@ int main(int argc, char** argv){
         myVec(i) = myVecB[i];
     }
 
-	simfor::vec res_vec1 = simfor::SteepestDescentSolverOmp(myMat, myVec, 20*N, 1e-6);
-	simfor::vec res_vec2 = simfor::ConjugateGradientSolverOmp(myMat, myVec, 20*N, 1e-6);
+	simfor::vec res_vec1 = simfor::SteepestDescentSolverMpi(myMat, myVec, 20*N, 1e-6);
+	simfor::vec res_vec2 = simfor::ConjugateGradientSolverMpi(myMat, myVec, 20*N, 1e-6);
 
     std::cout << "Answer(steepestDescentSolver): " << [&res_vec1](){ for (auto &&i : res_vec1){std::cout << i << " ";}; return "\n";}();
 

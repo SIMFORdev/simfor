@@ -1,7 +1,7 @@
 #include <simfor/TridiagonalOmp.hpp>
 
 namespace simfor {
-    vec Tridiagonal(matr &A, vec &b){
+    vec TridiagonalOmp(matr &A, vec &b){
         size_t N(A.size1());
         vec result(N);
         vec U(N), V(N);

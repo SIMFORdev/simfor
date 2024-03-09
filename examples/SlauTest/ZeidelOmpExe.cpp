@@ -1,25 +1,25 @@
 #include "simfor/ZeidelOmp.hpp"
 
-// simfor::matr genMatNMB(int n){
-//         simfor::matr m(n, n+1);
-//         for(auto i=0;i<n;i++){
-//             for(auto j=0;j<n+1;j++){
-//                 if (i==j)
-//                 {
-//                     m(i,j) = 10*n*fabsf64x(rand()%100+11);
-//                 }else{
-//                     m(i,j) = rand()%10;
-//                 }
-//             }
-//         }
-//         return m;
-// }
+simfor::matr genMatNMB(int n){
+        simfor::matr m(n, n+1);
+        for(auto i=0;i<n;i++){
+            for(auto j=0;j<n+1;j++){
+                if (i==j)
+                {
+                    m(i,j) = 10*n*fabsf64x(rand()%100+11);
+                }else{
+                    m(i,j) = rand()%10;
+                }
+            }
+        }
+        return m;
+}
 
-// simfor::vec genVecN(int n){
-//     simfor::vec v(n);
-//     for(auto i = 0; i < n; v[i++] = 10*rand()%10); 
-//     return v;
-// }
+simfor::vec genVecN(int n){
+    simfor::vec v(n);
+    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    return v;
+}
 
 int main(int argc, char const *argv[])
 {

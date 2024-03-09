@@ -1,25 +1,25 @@
 #include "simfor/SimpleIter.hpp"
 
-// simfor::matr genMatNNB(int n){
-//         simfor::matr m(n, n);
-//         for(auto i=0;i<n;i++){
-//             for(auto j=0;j<n;j++){
-//                 if (i==j)
-//                 {
-//                     m(i,j) = fabsf64x(rand()%10+11);
-//                 }else{
-//                     m(i,j) = rand()%10;
-//                 }
-//             }
-//         }
-//         return m;
-// }
+simfor::matr genMatNNB(int n){
+        simfor::matr m(n, n);
+        for(auto i=0;i<n;i++){
+            for(auto j=0;j<n;j++){
+                if (i==j)
+                {
+                    m(i,j) = fabsf64x(rand()%10+11);
+                }else{
+                    m(i,j) = rand()%10;
+                }
+            }
+        }
+        return m;
+}
 
-// simfor::vec genVecN(int n){
-//     simfor::vec v(n);
-//     for(auto i = 0; i < n; v[i++] = 10*rand()%10); 
-//     return v;
-// }
+simfor::vec genVecN(int n){
+    simfor::vec v(n);
+    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    return v;
+}
 
 int main(int argc, char** argv){
 	const auto N = 5;

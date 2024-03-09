@@ -17,7 +17,7 @@ simfor::matr genMatNNB(int n){
 
 simfor::vec genVecN(int n){
     simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*rand()%10); 
+    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
     return v;
 }
 

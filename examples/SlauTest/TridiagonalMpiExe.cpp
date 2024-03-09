@@ -1,4 +1,4 @@
-#include "simfor/TridiagonalOmp.hpp"
+#include "simfor/TridiagonalMpi.hpp"
 
 simfor::matr genMatNNB(int n){
         simfor::matr m(n, n);
@@ -27,32 +27,40 @@ simfor::vec genVecN(int n){
     return v;
 }
 
-int main(int argc, char const *argv[]){
-    
+int main(int argc, char *argv[]){
+
+    namespace mt  = mpi::threading;
+    mpi::environment env (argc, argv, mt::multiple, 1);
+    mpi::communicator world;
+
     const int N = 4;
     // matr myMatA = genMatNNB(N);
     // vec myVeca = genVecN(N);
-    
+
     simfor::matr myMatA(N,N);
     simfor::vec myVecb(N);
 
     //Answer: 1.11859 1.31062 1.50319 1.70798 
     std::vector<std::vector<double>> myMatB = {{ 10.8000, 0.0475,      0, 0     },
-                                        {  0.0321, 9.9000, 0.0523, 0     },
-                                        {       0, 0.0369, 9.0000, 0.0570},
-                                        {       0,      0, 0.0416, 8.1000}};
+                                            {  0.0321, 9.9000, 0.0523, 0     },
+                                            {       0, 0.0369, 9.0000, 0.0570},
+                                            {       0,      0, 0.0416, 8.1000}};
     std::vector myVecB = {12.1430, 13.0897, 13.6744, 13.8972};
 
-    for (auto i = 0; i < myMatB.size(); i++){
-        for (auto j = 0; j < myMatB[i].size(); j++){
-            myMatA(i, j) = myMatB[i][j];
-        }
-        myVecb(i) = myVecB[i];
-    }
+    // for (auto i = 0; i < N; i++){
+        // for (auto j = 0; j < N; j++){
+            // myMatA(i, j) = myMatB[i][j];
+            // std::cout << myMatA(i, j) << " ";
+        // }
+        // std::cout << myVeca(i) << " ";
+        // std::cout << "\n";
 
-    simfor::vec resVec = simfor::TridiagonalOmp(myMatA, myVecb);
+        // myVecb(i) = myVecB[i];
+    // }
 
-    std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
+    simfor::vec resVec = simfor::TridiagonalMpi(myMatA, myVeca);
+
+    // std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
 
     return 0;
 }

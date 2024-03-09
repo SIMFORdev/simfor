@@ -1,8 +1,37 @@
 #include "simfor/Tridiagonal.hpp"
 
+simfor::matr genMatNNB(int n){
+        simfor::matr m(n, n);
+        for(auto i=0;i<n;i++){
+            for(auto j=0;j<n;j++){
+                if (i==j)
+                {
+                    m(i,j) = 10*fabsf64x(rand()%100+11);
+                }else if (i == (j+1))
+                {
+                    m(i,j) = rand()%10;
+                }else if (i == (j-1))
+                {
+                    m(i,j) = rand()%10;
+                }else{
+                    m(i,j) = 0;
+                }
+            }
+        }
+        return m;
+}
+
+simfor::vec genVecN(int n){
+    simfor::vec v(n);
+    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    return v;
+}
+
 int main(int argc, char const *argv[]){
     
     const int N = 4;
+    // matr myMatA = genMatNNB(N);
+    // vec myVeca = genVecN(N);
 
     simfor::matr myMatA(N,N);
     simfor::vec myVecb(N);

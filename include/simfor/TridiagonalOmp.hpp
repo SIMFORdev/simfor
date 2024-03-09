@@ -1,5 +1,5 @@
-#ifndef SIMFOR_TDIAGONALOMP_HPP_
-#define SIMFOR_TDIAGONALOMP_HPP_
+#ifndef SIMFOR_TRIDIAGONAL_OMP_HPP_
+#define SIMFOR_TRIDIAGONAL_OMP_HPP_
 
 #include <simfor/internal/types.hpp>
 
