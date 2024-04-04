@@ -6,7 +6,7 @@ simfor::matr genMatNNB(int n){
             for(auto j=0;j<n;j++){
                 if (i==j)
                 {
-                    m(i,j) = 10*n*fabsf64x(rand()%100+11);
+                    m(i,j) = 10*fabsf64x(rand()%100+11);
                 }else{
                     m(i,j) = rand()%10;
                 }
@@ -27,11 +27,11 @@ int main(int argc, char *argv[])
         mpi::environment env (argc, argv, mt::multiple, 1);
         mpi::communicator world;
 
-        const auto N = 5;
+        const auto N = 2048;
         simfor::matr myMatA(N, N);
-        // myMatA = genMatNNB(N);
+        myMatA = genMatNNB(N);
         simfor::vec resVec(N), myVecA(N);
-        // myVecA = genVecN(N);
+        myVecA = genVecN(N);
 
         //Наша исходная матрица и вектор свободных чисел 
         std::vector<std::vector<double>> myMatB = {{32, 2, 1, 3, 1},
@@ -43,17 +43,17 @@ int main(int argc, char *argv[])
         
         //Матрица вида Ab необходима для работы функции GaussianElimination
         //Копируем значения
-        for (auto i = 0; i < myMatB.size(); i++){
-            for (auto j = 0; j < myMatB[i].size(); j++){
-                myMatA(i, j) = myMatB[i][j];
-            }
-            myVecA(i) = myVecB[i];
-        }
+        // for (auto i = 0; i < myMatB.size(); i++){
+        //     for (auto j = 0; j < myMatB[i].size(); j++){
+        //         myMatA(i, j) = myMatB[i][j];
+        //     }
+        //     myVecA(i) = myVecB[i];
+        // }
         mpi::timer t;
         t.restart();
         simfor::GaussianEliminationMpi(myMatA, myVecA, resVec, N);
         std::cout<<"Итоговое время счёта с * = " << t.elapsed() << std::endl;
-        if (world.rank() == 0) std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
+        // if (world.rank() == 0) std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
 
         return 0;
 }

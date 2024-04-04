@@ -23,7 +23,7 @@ simfor::vec genVecN(int n){
 
 int main(int argc, char *argv[])
 {
-    const auto N = 8192;
+    const auto N = 2048;
     namespace mt  = mpi::threading;
     mpi::environment env (argc, argv, mt::multiple, 1);
     mpi::communicator world;

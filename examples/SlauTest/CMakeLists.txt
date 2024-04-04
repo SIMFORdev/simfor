@@ -5,11 +5,21 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(SLAU_EXE_FILES
     GaussExe.cpp
+    # GaussOmpExe.cpp
+    # GaussMpiExe.cpp
     ZeidelExe.cpp
+    # ZeidelOmpExe.cpp
+    # ZeidelMpiExe.cpp
     LUdecompExe.cpp
+    # LUdecompOmpExe.cpp
     SimpleIterExe.cpp
+    # SimpleIterOmpExe.cpp
+    # SimpleIterMpiExe.cpp
     GradientsExe.cpp
+    # GradientsOmpExe.cpp
+    # GradientsMpiExe.cpp
     TridiagonalExe.cpp
+    # TridiagonalOmpExe.cpp
 )
 
 foreach(EXE ${SLAU_EXE_FILES})

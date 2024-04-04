@@ -1,4 +1,4 @@
-#include "simfor/SimpleIterMpi.hpp"
+#include "simfor/LUdecompOmp.hpp"
 
 simfor::matr genMatNNB(int n){
         simfor::matr m(n, n);
@@ -6,7 +6,7 @@ simfor::matr genMatNNB(int n){
             for(auto j=0;j<n;j++){
                 if (i==j)
                 {
-                    m(i,j) = fabsf64x(rand()%10+11);
+                    m(i,j) = 10*fabsf64x(rand()%10+11);
                 }else{
                     m(i,j) = rand()%10;
                 }
@@ -22,10 +22,10 @@ simfor::vec genVecN(int n){
 }
 
 int main(int argc, char** argv){
-	const auto N = 2048;
-    namespace mt  = mpi::threading;
-    mpi::environment env (argc, argv, mt::multiple, 1);
-    mpi::communicator world;
+	const auto N = 2018;
+
+    simfor::vec P(N+1), X(N);
+    
     simfor::matr Mat = genMatNNB(N);
     simfor::matr copyMat = Mat;
     simfor::matr myMat(N, N);
@@ -56,10 +56,11 @@ int main(int argc, char** argv){
     //     }
     //     myVec(i) = myVecB[i];
     // }
+    
+    auto status = simfor::LUPDecomposeOmp(myMat, size_t(N), 1e-6, P);
+    simfor::LUPSolveOmp(myMat, P, myVec, size_t(N), X);
 
-    simfor::vec resVec = simfor::SimpleIterMpi(myMat, myVec, N);
-
-    // std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
+    // std::cout << "Answer: " << [&X](){ for (auto &&i : X){std::cout << i << " ";}; return "\n";}();
 
 	return 0;
 }

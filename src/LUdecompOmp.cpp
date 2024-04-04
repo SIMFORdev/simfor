@@ -1,4 +1,4 @@
-#include "simfor/ludecompOmp.hpp"
+#include "simfor/LUdecompOmp.hpp"
 
 namespace simfor{
 
@@ -34,7 +34,7 @@ namespace simfor{
                 P(imax) = j;
 
                 //pivoting rows of A
-                SwapRow(A, i, j, N);
+                SwapRowOmp(A, i, j, N);
 
                 //counting pivots starting from N (for determinant)
                 P(N)++;
