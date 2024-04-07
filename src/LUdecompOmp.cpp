@@ -10,7 +10,7 @@ namespace simfor{
         for (i = 0; i <= N; i++)
             P(i) = i; //Unit permutation matrix, P[N] initialized with N
 
-        #pragma omp parallel for default(shared) private(i, maxA, imax, k, j)
+        // #pragma omp parallel for default(shared) private(i, maxA, imax, k, j)
         for (i = 0; i < N; i++) {
             maxA = 0.0;
             imax = i;

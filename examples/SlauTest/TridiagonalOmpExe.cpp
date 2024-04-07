@@ -29,12 +29,12 @@ simfor::vec genVecN(int n){
 
 int main(int argc, char const *argv[]){
     
-    const int N = 2048;
-    simfor::matr myMatA = genMatNNB(N);
-    simfor::vec myVecb = genVecN(N);
+    const int N = 4;
+    // simfor::matr myMatA = genMatNNB(N);
+    // simfor::vec myVecb = genVecN(N);
     
-    // simfor::matr myMatA(N,N);
-    // simfor::vec myVecb(N);
+    simfor::matr myMatA(N,N);
+    simfor::vec myVecb(N);
 
     //Answer: 1.11859 1.31062 1.50319 1.70798 
     std::vector<std::vector<double>> myMatB = {{ 10.8000, 0.0475,      0, 0     },
@@ -43,16 +43,16 @@ int main(int argc, char const *argv[]){
                                         {       0,      0, 0.0416, 8.1000}};
     std::vector<double> myVecB = {12.1430, 13.0897, 13.6744, 13.8972};
 
-    // for (auto i = 0; i < myMatB.size(); i++){
-    //     for (auto j = 0; j < myMatB[i].size(); j++){
-    //         myMatA(i, j) = myMatB[i][j];
-    //     }
-    //     myVecb(i) = myVecB[i];
-    // }
+    for (auto i = 0; i < myMatB.size(); i++){
+        for (auto j = 0; j < myMatB[i].size(); j++){
+            myMatA(i, j) = myMatB[i][j];
+        }
+        myVecb(i) = myVecB[i];
+    }
 
     simfor::vec resVec = simfor::TridiagonalOmp(myMatA, myVecb);
 
-    // std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
+    std::cout << "Answer: " << [&resVec](){ for (auto &&i : resVec){std::cout << i << " ";}; return "\n";}();
 
     return 0;
 }
