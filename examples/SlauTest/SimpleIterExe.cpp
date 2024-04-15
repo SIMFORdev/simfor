@@ -1,23 +1,56 @@
 #include "simfor/SimpleIter.hpp"
 
-simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
-                {
-                    m(i,j) = fabsf64x(rand()%10+11);
-                }else{
-                    m(i,j) = rand()%10;
-                }
+/**
+ * @brief Generates a square matrix of size n with random values
+ * 
+ * @param n size of the matrix to generate
+ * @return simfor::matr n x n sized matrix with random values
+ */
+simfor::matr genMatNNB(int n)
+{
+    simfor::matr m(n, n); // Initialize a n x n matrix
+
+    /* Fill the diagonal with absolute values of random integers
+     * between 11 and 20
+     */
+    for(auto i=0; i<n; i++)
+    {
+        m(i, i) = fabsf64x(rand() % 10 + 11);
+    }
+
+    /* Fill the rest of the matrix with random integers between 0 and 9
+     */
+    for(auto i=0; i<n; i++)
+    {
+        for(auto j=0; j<n; j++)
+        {
+            if (i != j)
+            {
+                m(i, j) = rand() % 10;
             }
         }
-        return m;
+    }
+
+    return m;
 }
 
-simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+/**
+ * @brief Generates a vector of size n with random values
+ * 
+ * @param n size of the vector to generate
+ * @return simfor::vec n sized vector with random values
+ */
+simfor::vec genVecN(int n)
+{
+    simfor::vec v(n); // Initialize a vector of size n
+    for (auto i = 0; i < n; /* increment in the for loop */)
+    {
+        /* Set the i-th value of the vector to a random value
+         * between 10 and 20 multiplied by the absolute value
+         * of a random integer between 0 and 10
+         */
+        v[i++] = 10 * fabsf64x(rand() % 10 + 11);
+    }
     return v;
 }
 

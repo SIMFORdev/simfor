@@ -1,23 +1,43 @@
 #include "simfor/LUdecompOmp.hpp"
 
-simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
-                {
-                    m(i,j) = 10*fabsf64x(rand()%10+11);
-                }else{
-                    m(i,j) = rand()%10;
-                }
+/**
+ * @brief Generate a matrix with random values
+ * 
+ * @param n size of the matrix
+ * @return simfor::matr n x n matrix with random values
+ */
+simfor::matr genMatNNB(int n)
+{
+    simfor::matr m(n, n); // create a n x n matrix
+    for (auto i = 0; i < n; i++) // iterate over rows
+    {
+        for (auto j = 0; j < n; j++) // iterate over columns
+        {
+            if (i == j) // if it is a diagonal element set a random value between 10 and 20
+            {
+                m(i, j) = 10 * fabsf64x(rand() % 10 + 11);
+            }
+            else // otherwise set a random value between 0 and 9
+            {
+                m(i, j) = rand() % 10;
             }
         }
-        return m;
+    }
+    return m;
 }
 
+/**
+ * @brief Generate a vector with random values
+ * 
+ * @param n Size of the vector
+ * @return simfor::vec Vector of length n with random values between 10 and 20
+ */
 simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    simfor::vec v(n); // Create a vector with length n
+    for(auto i = 0; i < n; /* increment i */) {
+        v[i] = 10*fabsf64x(rand()%10+11); // Set the current element to a random value between 10 and 20
+        i++; // Increment i
+    }
     return v;
 }
 

@@ -1,31 +1,61 @@
 #include "simfor/Tridiagonal.hpp"
 
-simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
-                {
-                    m(i,j) = 10*fabsf64x(rand()%100+11);
-                }else if (i == (j+1))
-                {
-                    m(i,j) = rand()%10;
-                }else if (i == (j-1))
-                {
-                    m(i,j) = rand()%10;
-                }else{
-                    m(i,j) = 0;
-                }
+/**
+ * @brief Generates a n x n matrix with random values
+ *
+ * @param n size of the matrix to generate
+ *
+ * @return simfor::matr n x n matrix with random values
+ */
+simfor::matr genMatNNB(int n)
+{
+    simfor::matr m(n, n); // Initialize a n x n matrix
+
+    // Fill the matrix with random values
+    // The diagonal elements are between [10, 110]
+    // The off-diagonal elements are between [0, 10]
+    for (auto i = 0; i < n; i++)
+    {
+        for (auto j = 0; j < n; j++)
+        {
+            if (i == j) // Diagonal elements
+            {
+                m(i, j) = 10.0 * fabsf64x(rand() % 100 + 11);
+            }
+            else if (i == (j + 1)) // Off-diagonal elements to the right
+            {
+                m(i, j) = rand() % 10;
+            }
+            else if (i == (j - 1)) // Off-diagonal elements to the left
+            {
+                m(i, j) = rand() % 10;
+            }
+            else // Off-diagonal elements to the upper and lower
+            {
+                m(i, j) = 0;
             }
         }
-        return m;
+    }
+    return m;
 }
 
-simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+/**
+ * @brief Generates a vector of size n with random values in [10, 20]
+ *
+ * @param n size of the vector to generate
+ *
+ * @return simfor::vec n sized vector with random values in [10, 20]
+ */
+simfor::vec genVecN(int n)
+{
+    simfor::vec v(n); // Initialize a n sized vector
+
+    // Fill the vector with random values between 10 and 20
+    for (auto i = 0; i < n; v[i++] = 10.0 * fabsf64x(rand() % 10 + 11)); 
+
     return v;
 }
+
 
 int main(int argc, char const *argv[]){
     

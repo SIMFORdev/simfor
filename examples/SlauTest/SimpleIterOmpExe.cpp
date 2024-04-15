@@ -1,24 +1,49 @@
 #include "simfor/SimpleIterOmp.hpp"
 
-simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
-                {
-                    m(i,j) = fabsf64x(rand()%10+11);
-                }else{
-                    m(i,j) = rand()%10;
-                }
+/**
+ * @brief Generate a matrix with random numbers
+ * 
+ * @param n Dimension of the matrix
+ * @return simfor::matr Generated matrix
+ */
+simfor::matr genMatNNB(int n) {
+    // Initialize matrix with dimension n x n
+    simfor::matr m(n, n);
+
+    // Iterate through rows
+    for(auto i=0;i<n;i++) {
+        // Iterate through columns
+        for(auto j=0;j<n;j++) {
+            // If diagonal element
+            if (i==j) {
+                // Assign a random number with absolute value between 11 and 20
+                m(i,j) = fabsf64x(rand()%10+11);
+            } else {
+                // Assign a random number between 0 and 9
+                m(i,j) = rand()%10;
             }
         }
-        return m;
+    }
+
+    return m;
 }
 
+/**
+ * @brief Generate a vector with n elements
+ * 
+ * @param n Size of the vector
+ * @return simfor::vec Vector with n elements
+ */
 simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
-    return v;
+    simfor::vec v(n); /* Initialize a vector with n elements */
+
+    /* Iterate over vector and assign random values to each element */
+    for(auto i = 0; i < n; /* Increment i */ ) 
+    {
+        /* Assign a random value to the current element */
+        v[i++] = 10*fabsf64x(rand()%10+11); /* [10, 20] */
+    }
+    return v; /* Return the generated vector */
 }
 
 int main(int argc, char** argv){

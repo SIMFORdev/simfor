@@ -2,18 +2,27 @@
 
 namespace simfor
 {
+    /**
+     * @brief Solves linear system Ax = b using Gauss-Jordan method with MPI.
+     * @param mat Coefficient matrix.
+     * @param B Right-hand side vector.
+     * @param res Solution vector.
+     * @param N Size of the system.
+     */
     void GaussianEliminationMpi(matr &mat, vec &B, vec &res, int N){
+        // Local matrices and result
         matr L(N, N), U(N, N), L_inv(N, N), T(N, N);
         vec C(N);
+        // MPI variables
         mpi::communicator world;
+        int p = world.size(); // Number of processes
+        int r = world.rank(); // Rank of the current process
 
-        int p = world.size();
-        int r = world.rank();
-
-        int cnt = floor(N / p);
-        int from = r * cnt;
-        int to = N;
-        if ( r != p-1 ) to = from + cnt;
+        // Compute local submatrices
+        int cnt = floor(N / p); // Number of rows for each process
+        int from = r * cnt; // First row for current process
+        int to = N; // Last row for current process
+        if ( r != p-1 ) to = from + cnt; // Last row for last process
 
         for(int i = 0; i < N; ++i){
             for(int j = 0; j < N; ++j)
@@ -26,36 +35,37 @@ namespace simfor
                 }
         }
 
-        world.barrier();
+        world.barrier(); // Synchronize processes before sending
         if (r != 0){
-            world.send( 0, 1, from );
+            world.send( 0, 1, from ); // Send first row and last row for current process
             world.send( 0, 2, to );
-            world.send(0, 3, &L(from), ( to - from) * N);
-            world.send(0, 4, &U(from), ( to - from) * N);
+            world.send(0, 3, &L(from), ( to - from) * N); // Send L matrix
+            world.send(0, 4, &U(from), ( to - from) * N); // Send U matrix
         }else{
             for ( int i = 1; i < p; ++i ){
-                world.recv ( i, 1, from);
-                world.recv ( i, 2, to);
-                world.recv ( i, 3, &L(from), ( to - from) * N);
-                world.recv ( i, 4, &U(from), ( to - from) * N);
+                world.recv ( i, 1, from ); // Receive first row and last row from each process
+                world.recv ( i, 2, to );
+                world.recv ( i, 3, &L(from), ( to - from) * N); // Receive L matrix
+                world.recv ( i, 4, &U(from), ( to - from) * N); // Receive U matrix
             }
         }
 
+        // Compute inverse of L and L*U
         cnt = floor(N / p);
         from = r * cnt;
         to = N;
         if ( r != p-1 ) {to = from + cnt;}
-        broadcast(world, &L.at_element(0, 0), N*N,  0);
-        broadcast(world, &U.at_element(0, 0), N*N,  0);
-        L_inv = findInvMatGaussJordan(L, N);
+        broadcast(world, &L.at_element(0, 0), N*N,  0); // Broadcast L matrix
+        broadcast(world, &U.at_element(0, 0), N*N,  0); // Broadcast U matrix
+        L_inv = findInvMatGaussJordan(L, N); // Compute L^-1
 
         cnt = floor(N / p);
         from = r * cnt;
         to = N;
         if ( r != p-1 ) to = from + cnt;
-        matmult(L_inv, U, T, N);
+        matmult(L_inv, U, T, N); // Compute L^-1 * U
             
-        world.barrier();
+        world.barrier(); // Synchronize processes before computing C
         cnt = floor(N / p);
         from = r * cnt;
         to = N;
@@ -69,9 +79,9 @@ namespace simfor
         }
 
         if (r != 0){
-            world.send(0, 1, from);
+            world.send(0, 1, from); // Send first row and last row
             world.send(0, 2, to);
-            world.send(0, 3, &C(from), (to-from));
+            world.send(0, 3, &C(from), (to-from)); // Send C vector
         }else{
             for ( int i = 1; i < p; ++i ){
                 world.recv(i, 1, from);
@@ -80,12 +90,12 @@ namespace simfor
             }
         }
 
-        world.barrier();
-        vec resCycle(N);
-        resCycle.clear(); //IT CLEARS NAN NUMBERS! DO NOT DELETE!!!
-        int flag{0};
+        world.barrier(); // Synchronize processes before iterative process
+        vec resCycle(N); // Intermediate solution vector
+        resCycle.clear(); // Clear NaNs
+        int flag{0}; // Flag for convergence
         do{
-            world.barrier();
+            world.barrier(); // Synchronize processes before iteration
             flag = 0;
             res.assign(resCycle);
             cnt = floor(N / p);
@@ -99,7 +109,7 @@ namespace simfor
                 }
                 resCycle(i) += C(i);
             }
-            world.barrier();
+            world.barrier(); // Synchronize processes before sending
             if (r != 0){
                 world.send(0, 1, from);
                 world.send(0, 2, to);
@@ -111,19 +121,19 @@ namespace simfor
                     world.recv(i, 3, &resCycle(from), (to-from));
                 }
             }
-            broadcast(world, &resCycle(0), N,  0);
+            broadcast(world, &resCycle(0), N,  0); // Broadcast intermediate result
             cnt = floor(N / p);
             from = r * cnt;
             to = N;
             if ( r != p-1 ) {to = from + cnt;}
-            int tmp{0};
-            broadcast(world, &res(0), N, 0);
+            int tmp{0}; // Dummy variable for summation
+            broadcast(world, &res(0), N, 0); // Broadcast final result
             for(int i = from; i < to; ++i){
                 tmp += (fabsf64(resCycle(i)-res(i)) > 1e-9 ? 1 : 0);
             }
-            reduce(world, tmp, flag, std::plus<int>(), 0);
-            broadcast(world, flag, 0);
-            world.barrier();
+            reduce(world, tmp, flag, std::plus<int>(), 0); // Summation of convergence flag
+            broadcast(world, flag, 0); // Broadcast convergence flag
+            world.barrier(); // Synchronize processes
         } while (flag>1);
     }
 

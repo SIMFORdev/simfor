@@ -2,25 +2,38 @@
 
 namespace simfor{
 
-    int LUPDecompose(matr& A, size_t N, double Tol, vec& P){
-        int j{}, imax{}; 
-        double maxA{}, absA{};
+    /**
+     * LU decomposition of a matrix A.
+     * 
+     * INPUT: A - matrix of size NxN, N - size of A
+     * OUTPUT: P - permutation matrix, A - LU decomposed matrix
+     * RETURN: 1 if decomposition was successful, 0 otherwise
+     * 
+     * Algorithm: Gaussian elimination with partial pivoting
+     */
+    int LUPDecompose(matr& A, size_t N, double Tol, vec& P) {
+        int j{}, imax{};  //column and row index of pivot
+        double maxA{}, absA{}; //maximum element in column and absolute value
 
         for (auto i = 0; i <= N; i++)
             P(i) = i; //Unit permutation matrix, P[N] initialized with N
 
+        //Gaussian elimination with partial pivoting
         for (auto i = 0; i < N; i++) {
             maxA = 0.0;
             imax = i;
 
+            //Find pivot element in column i
             for (auto k = i; k < N; k++)
                 if ((absA = fabs(A(k,i))) > maxA) { 
                     maxA = absA;
                     imax = k;
                 }
 
-            if (maxA < Tol) return 0; //failure, matrix is degenerate
+            //Check for degeneracy
+            if (maxA < Tol) return 0; 
 
+            //Swap rows i and imax
             if (imax != i) {
                 j =  P(i);
                 P(i) = P(imax);
@@ -33,6 +46,7 @@ namespace simfor{
                 P(N)++;
             }
 
+            //Elimination step
             for (auto j = i + 1; j < N; j++) {
                 A(j,i) /= A(i,i);
 
@@ -44,32 +58,36 @@ namespace simfor{
         return 1;  //decomposition done 
     }
 
-    /* INPUT: A,P filled in LUPDecompose; b - rhs vector; N - dimension
-    * OUTPUT: x - solution vector of A*x=b
-    */
+    /**
+     * Solves the linear system Ax=b using the LUP decomposition of A
+     * 
+     * INPUT: A,P filled in LUPDecompose; b - rhs vector; N - dimension
+     * OUTPUT: x - solution vector of A*x=b
+     */
     void LUPSolve(matr& A, vec& P, vec& b, size_t N, vec& x) {
+        // Forward substitution step:
         for (auto i = 0; i < N; i++) {
-            x(i) = b(P(i));
+            x(i) = b(P(i)); // Use the initial order in P to start
 
+            // Subtract the effects of all previous rows
             for (auto k = 0; k < i; k++)
                 x(i) -= A(i,k) * x(k);
         }
 
+        // Backward substitution step:
         for (int i = N - 1; i >= 0; i--) {
+            // Subtract the effects of all later rows
             for (auto k = i + 1; k < N; k++)
                 x(i) -= A(i,k) * x(k);
 
-            x(i) /= A(i,i);
+            x(i) /= A(i,i); // Divide by diagonal element to get the solution.
         }
     }
 
     void SwapRow(matr &mat, int i, int j, size_t N){
-        for (auto k=0; k<=N; k++){
-            double temp = mat(i,k);
-            mat(i,k) = mat(j,k);
-            mat(j,k) = temp;
-        }
+        std::swap_ranges(mat.begin1()+i*N, mat.begin1()+(i+1)*N, mat.begin1()+j*N);
     }
+
 
     //Those funcs for test purposes
     /* INPUT: A,P filled in LUPDecompose; N - dimension

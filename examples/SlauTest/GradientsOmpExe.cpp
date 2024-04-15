@@ -1,24 +1,41 @@
 #include "simfor/GradientsOmp.hpp"
 
-simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
+/**
+ * @brief Generate matrix with main diagonal equal to 10*|random integer between 11 and 100|
+ *        and off-diagonal elements equal to random integers between 0 and 9
+ * @param n - size of matrix
+ * @return matrix with given properties
+ */
+simfor::matr genMatNNB(int n)
+{
+        simfor::matr m(n, n); // create matrix with n columns and n rows
+        for (auto i = 0; i < n; i++) // iterate over rows
+        {
+            for (auto j = 0; j < n; j++) // iterate over columns
+            {
+                if (i == j) // if current element is on the main diagonal
                 {
-                    m(i,j) = 10*fabsf64x(rand()%100+11);
-                }else{
-                    m(i,j) = rand()%10;
+                    m(i, j) = 10 * fabsf64x(rand() % 100 + 11); // set it to 10 times absolute value of random integer between 11 and 100
+                }
+                else // if current element is not on the main diagonal
+                {
+                    m(i, j) = rand() % 10; // set it to random integer between 0 and 9
                 }
             }
         }
         return m;
 }
 
+/**
+ * @brief Generate a vector of length n with random values in [10, 100]
+ * @param n Length of the generated vector
+ * @return Vector with length n filled with random values in [10, 100]
+ */
 simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
-    return v;
+    simfor::vec v(n);  // Create a vector of length n
+    for(auto i = 0; i < n; i++)  // Iterate through elements
+        v[i] = 10*fabsf64x(rand()%100+11); // Set element to random value in [10, 100]
+    return v;  // Return the generated vector
 }
 
 int main(int argc, char** argv){

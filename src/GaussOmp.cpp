@@ -3,37 +3,43 @@
 
 namespace simfor{
 
+	/**
+	 * Performs Gaussian Elimination on the given matrix using OpenMP
+	 * @param[in,out] mat The matrix to eliminate, modified in place.
+	 * @param[in] N The size of the square matrix.
+	 * @return The solution vector to the system of linear equations.
+	 * 
+	 * Gaussian Elimination reduces the given matrix (A) and right-hand side vector (b)
+	 * to row-echelon form (REQ). The solution to the system of linear equations is
+	 * then obtained by performing backward substitution on the modified matrix (A) and
+	 * vector (b).
+	 * 
+	 * If the matrix is singular, the function prints out a message indicating
+	 * whether the system is inconsistent or may have infinitely many solutions. In
+	 * either case, an empty vector is returned.
+	 */
 	vec GaussianEliminationOmp(matr &mat, int N){
-		/*Сведение матрицы к треугольной*/
+		// Reduce matrix to REF using Gaussian Elimination
 		int singular_flag = ForwardElimOmp(mat, N);
 		vec res;
-		// printf("After forward elim:\n");
-		// print(mat, N);
-		/* Если матрица вырожд */
+		// If matrix is singular, handle accordingly
 		if (singular_flag != -1){
 			printf("Singular Matrix.\n");
-			/* если правая часть уравнения, 
-			соответствующая нулевой строке, 
-			равна 0, * система имеет бесконечно много решений, 
-			в противном случае система несовместна*/
+			// If right-hand side is zero, infinitely many solutions
 			if (mat(singular_flag, N))
-				printf("Inconsistent System.");
+				printf("Inconsistent System.\n");
+			// Otherwise may have infinitely many solutions
 			else
-				printf("May have infinitely many solutions.");
+				printf("May have infinitely many solutions.\n");
 			return res;
 		}
-		/* get solution to system and print it using
-		backward substitution */
+		// Solve the system of linear equations using backward substitution
 		res = BackSubOmp(mat, N);
 		return res;
 	}
 
 	void SwapRow(matr &mat, int i, int j, int N){
-		for (auto k = 0; k <= N; k++){
-			double temp = mat(i, k);
-			mat(i, k) = mat(j, k);
-			mat(i, k) = temp;
-		}
+		std::swap_ranges(mat.begin1() + i*N, mat.begin1() + (i+1)*N, mat.begin1() + j*N);
 	}
 
 	int ForwardElimOmp(matr &mat, int N){

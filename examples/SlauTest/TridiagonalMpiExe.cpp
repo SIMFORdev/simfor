@@ -1,19 +1,42 @@
 #include "simfor/TridiagonalMpi.hpp"
 
+/**
+ * @brief Generate a random tridiagonal matrix
+ * 
+ * The resulting matrix will have the following structure:
+ * 
+ *       a_ii       a_ij      | i,j \in [0, n-1]
+ * a_ij = c_ij 0   0   0    | i == j
+ *       c_ij a_i,j 0   0    | i == j+1
+ *       0   c_ij a_i,j 0    | i == j-1
+ *       0   0   c_ij a_i,j  | otherwise
+ * 
+ * @param n Number of rows and columns of the generated matrix
+ * @return A random tridiagonal matrix with the specified size
+ */
 simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
+        simfor::matr m(n, n); // initialize empty matrix
+        // Loop through all the elements of the matrix
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                // If the element is on the diagonal
                 if (i==j)
                 {
+                    // Set the element to a random integer between 11 and 110 with
+                    // absolute value
                     m(i,j) = 10*fabsf64x(rand()%100+11);
-                }else if (i == (j+1))
+                }
+                // If the element is on the sub/super-diagonal
+                else if (i == j+1 || i == j-1)
                 {
+                    // Set the element to a random integer between 0 and 9
                     m(i,j) = rand()%10;
-                }else if (i == (j-1))
+                }
+                // Otherwise (the element is not on the diagonal, subdiagonal or
+                // superdiagonal)
+                else
                 {
-                    m(i,j) = rand()%10;
-                }else{
+                    // Set the element to 0
                     m(i,j) = 0;
                 }
             }
@@ -21,10 +44,17 @@ simfor::matr genMatNNB(int n){
         return m;
 }
 
+/**
+ * @brief Generate a vector of size n with random values
+ * 
+ * @param n Size of the vector to generate
+ * @return A vector of size n with random values
+ */
 simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
-    return v;
+    simfor::vec v(n); // Initialize a vector of size n
+    for(auto i = 0; i < n; /** Loop through all the elements of the vector */
+        v[i++] = 10*fabsf64x(rand()%10+11)); /** Set the current element to a random value between 11 and 110 with absolute value */
+    return v; /** Return the generated vector */
 }
 
 int main(int argc, char *argv[]){

@@ -2,13 +2,28 @@
 
 namespace simfor{
 
+    /**
+     * @brief LUP decomposition of a matrix in parallel with OpenMP
+     * @details Performs an LUP decomposition of a given matrix A with size N x N,
+     *          using partial pivoting. The decomposition is done in place,
+     *          so A will be modified. The permutation matrix P is also returned.
+     *          The function returns 1 if the decomposition is successful,
+     *          or 0 if the matrix is degenerate.
+     *
+     * @param A Matrix to be decomposed
+     * @param N Size of the matrix
+     * @param Tol Tolerance below which pivoting is skipped
+     * @param P Permutation matrix
+     *
+     * @return 1 if successful, 0 otherwise
+     */
     int LUPDecomposeOmp(matr& A, size_t N, double Tol, vec& P){
-        int i{},j{}, k{}, imax{}; 
-        double maxA{}, absA{};
+        int i{},j{}, k{}, imax{};  //loop counters
+        double maxA{}, absA{};     //maximum value in column i, absolute value of A(k,i)
 
         #pragma omp parallel for private(i)
-        for (i = 0; i <= N; i++)
-            P(i) = i; //Unit permutation matrix, P[N] initialized with N
+        for (i = 0; i <= N; i++) //initialize permutation matrix and set P[N] to N
+            P(i) = i;
 
         // #pragma omp parallel for default(shared) private(i, maxA, imax, k, j)
         for (i = 0; i < N; i++) {
@@ -16,14 +31,17 @@ namespace simfor{
             imax = i;
 
             #pragma omp parallel for default(shared) private(k)
-            for (k = i; k < N; k++)
+            for (k = i; k < N; k++) {
                 #pragma omp critical
-                if ((absA = fabs(A(k,i))) > maxA) { 
+                if ((absA = fabs(A(k,i))) > maxA) {  //find maximum in column i
                     maxA = absA;
                     imax = k;
                 }
+            }
 
-            if (maxA < Tol) k = 0; //failure, matrix is degenerate
+            if (maxA < Tol) { //failure, matrix is degenerate
+                k = 0;
+            }
 
             if (imax != i) {
                 #pragma omp parallel
@@ -50,26 +68,40 @@ namespace simfor{
             }
         }
 
-        return 1;  //decomposition done 
+        return 1;  //decomposition done
     }
 
-    /* INPUT: A,P filled in LUPDecompose; b - rhs vector; N - dimension
-    * OUTPUT: x - solution vector of A*x=b
-    */
+
+    /**
+     * @brief Solves linear system A*x=b using LUP decomposition with OpenMP
+     * @details Solves the linear system A*x=b where A is a square matrix of
+     *          size NxN and b is a vector of length N. The function assumes
+     *          that A and P are already filled with the LUP decomposition of
+     *          the original matrix A, as computed by LUPDecomposeOmp.
+     *          The solution x is computed and stored in the vector x.
+     *
+     * @param A Matrix A of the linear system
+     * @param P Permutation matrix of LUP decomposition
+     * @param b Vector b of the linear system
+     * @param N Size of the matrix and vectors
+     * @param x Solution vector x
+     */
     void LUPSolveOmp(matr& A, vec& P, vec& b, size_t N, vec& x) {
-        int i{}, k{};
+        int i{}, k{};  //loop counters
+
+        //forward substitution
         #pragma omp taskloop default(shared) private(i, k)
         for (i = 0; i < N; i++) {
-            x(i) = b(P(i));
+            x(i) = b(P(i));  //use values in original order
             #pragma omp taskloop default(shared) private(k)
-            // #pragma omp simd order(concurrent) private(k)
             for (k = 0; k < i; k++)
                 x[i] -= A(i,k) * x(k);
         }
+
+        //backward substitution
         #pragma omp taskloop default(shared) private(i, k)
         for (i = N - 1; i >= 0; i--) {
             #pragma omp taskloop default(shared) private(k)
-            // #pragma omp simd order(concurrent) private(k)
             for (k = i + 1; k < N; k++)
                 x(i) -= A(i,k) * x(k);
 

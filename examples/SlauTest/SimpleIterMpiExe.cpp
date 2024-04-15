@@ -1,24 +1,39 @@
 #include "simfor/SimpleIterMpi.hpp"
 
+/**
+ * @brief Generate a random square matrix with random non-zero diagonal elements
+ * @param n Size of the matrix
+ * @return A square matrix of size n, with diagonal elements randomized
+ */
 simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
+        /* Generate a random square matrix with random non-zero diagonal elements */
+        simfor::matr m(n, n); /* Create a matrix of size n x n */
+        for(auto i=0;i<n;i++){ /* Iterate over rows */
+            for(auto j=0;j<n;j++){ /* Iterate over columns */
+                if (i==j) /* If we're on the diagonal */
                 {
-                    m(i,j) = fabsf64x(rand()%10+11);
+                    m(i,j) = fabsf64x(rand()%10+11); /* Set diagonal element to a random value */
                 }else{
-                    m(i,j) = rand()%10;
+                    m(i,j) = rand()%10; /* Otherwise set element to a random value */
                 }
             }
         }
-        return m;
+        return m; /* Return the generated matrix */
 }
 
-simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
-    return v;
+/**
+ * @brief Generate a vector with n elements
+ * @param n Number of elements in the vector
+ * @return A vector with n elements, with random values in [10, 100]
+ */
+simfor::vec genVecN(int n)
+{
+    simfor::vec v(n); // Create a vector of size n
+    for (auto i = 0; i < n; ) // Iterate over the vector
+    {
+        v[i++] = 10*fabsf64x(rand()%10+11); // Set each element to a random value between [10, 100]
+    }
+    return v; // Return the generated vector
 }
 
 int main(int argc, char** argv){

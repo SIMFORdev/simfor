@@ -1,29 +1,42 @@
 #include "simfor/TridiagonalOmp.hpp"
 
+/**
+ * @brief Generate a random matrix with non-zero elements in the main diagonal and two neighboring diagonals.
+ * @param n The number of rows and columns of the matrix.
+ * @return A random matrix with non-zero elements in the main diagonal and two neighboring diagonals.
+ */
 simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
+        simfor::matr m(n, n); // create a matrix with n rows and columns
+        for(auto i=0;i<n;i++){ // iterate over rows
+            for(auto j=0;j<n;j++){ // iterate over columns
+                if (i==j) // if i == j, it is in the main diagonal
                 {
-                    m(i,j) = 10*fabsf64x(rand()%100+11);
-                }else if (i == (j+1))
+                    m(i,j) = 10*fabsf64x(rand()%100+11); // set the element to a random number in [11,110]
+                }else if (i == (j+1)) // if i == j+1, it is in the upper diagonal
                 {
-                    m(i,j) = rand()%10;
-                }else if (i == (j-1))
+                    m(i,j) = rand()%10; // set the element to a random number in [0,9]
+                }else if (i == (j-1)) // if i == j-1, it is in the lower diagonal
                 {
-                    m(i,j) = rand()%10;
+                    m(i,j) = rand()%10; // set the element to a random number in [0,9]
                 }else{
-                    m(i,j) = 0;
+                    m(i,j) = 0; // otherwise the element is 0
                 }
             }
         }
         return m;
 }
 
+
+/**
+ * @brief Generate a vector of length n with random values in [11,110]
+ * @param n The length of the vector to generate
+ * @return A vector of length n with random values in [11,110]
+ */
 simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    simfor::vec v(n); // initialize vector of length n
+    for(auto i = 0; i < n; /* increment index inside loop */) {
+        v[i++] = 10*fabsf64x(rand()%10+11); // set value and increment index
+    }
     return v;
 }
 

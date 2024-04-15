@@ -1,23 +1,38 @@
 #include "simfor/GradientsMpi.hpp"
 
+/**
+ * @brief Generate a random matrix with n rows and n columns
+ * @param n The number of rows and columns
+ * @return A matrix with a diagonal of random large elements and the rest of random small elements
+ */
 simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
+        simfor::matr m(n, n); /* create a matrix with n rows and n columns */
+        /* fill the matrix with random values */
+        for(auto i=0;i<n;i++){ /* iterate over rows */
+            for(auto j=0;j<n;j++){ /* iterate over columns */
+                if (i==j) /* if the current element is on the diagonal */
                 {
-                    m(i,j) = 10*fabsf64x(rand()%100+11);
+                    m(i,j) = 10*fabsf64x(rand()%100+11); /* set a random large value */
                 }else{
-                    m(i,j) = rand()%10;
+                    m(i,j) = rand()%10; /* set a random small value */
                 }
             }
         }
         return m;
 }
 
+/**
+ * @brief Generate a vector of length n with random values
+ * @param n The length of the vector
+ * @return A vector with random values between 10 and 110
+ */
 simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    simfor::vec v(n); /* create a vector of length n */
+
+    /* fill the vector with random values */
+    for(auto i = 0; i < n; /* increment i and do the following */)
+        v[i++] = 10*fabsf64x(rand()%10+11); /* set i'th element to a random value between 10 and 110 */
+
     return v;
 }
 

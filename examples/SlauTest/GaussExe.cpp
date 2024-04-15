@@ -1,19 +1,38 @@
 #include "simfor/Gauss.hpp"
 
-simfor::matr genMatNMB(int n){
-        simfor::matr m(n, n+1);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n+1;j++){
-                if (i==j)
-                {
-                    m(i,j) = 10*fabsf64x(rand()%100+11);
-                }else{
-                    m(i,j) = rand()%10;
-                }
+/**
+ * @brief Generate matrix with random numbers
+ * @details Random matrix with size n*n+1. Main diagonal is filled with
+ * values 10*fabs(random number from 11 to 110) and off-diagonal elements
+ * are filled with random numbers from 0 to 9.
+ * 
+ * @param n size of matrix
+ * 
+ * @return matrix with random numbers
+ */
+simfor::matr genMatNMB(int n)
+{
+    simfor::matr m(n, n+1);  // n*n+1 matrix
+
+    /* fill matrix with random numbers */
+    for(auto i=0; i<n; i++)
+    {
+        for(auto j=0; j<n+1; j++)
+        {
+            if (i==j)
+            {
+                m(i,j) = 10*fabsf64x(rand()%100+11);  // main diagonal
+            }
+            else
+            {
+                m(i,j) = rand()%10;  // off-diagonal elements
             }
         }
-        return m;
+    }
+
+    return m;
 }
+
 
 int main(int argc, char const *argv[])
 {

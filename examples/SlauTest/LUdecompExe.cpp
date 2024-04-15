@@ -1,23 +1,46 @@
 #include "simfor/LUdecomp.hpp"
 
+/**
+ * @brief Generate a matrix with a diagonal of random numbers between 10 and 20
+ * and the rest of the numbers random between 0 and 9.
+ *
+ * @param n The size of the matrix
+ *
+ * @return A matrix with the described properties
+ */
 simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
+        simfor::matr m(n, n); // Create an n x n matrix
+        for(int i=0;i<n;i++){ // Iterate over rows
+            for(int j=0;j<n;j++){ // Iterate over columns
                 if (i==j)
                 {
-                    m(i,j) = 10*fabsf64x(rand()%10+11);
+                    m(i,j) = 10*fabsf64x(rand()%10+11); // Set diagonal elements to random numbers between 10 and 20
                 }else{
-                    m(i,j) = rand()%10;
+                    m(i,j) = rand()%10; // Set other elements to random numbers between 0 and 9
                 }
             }
         }
         return m;
 }
 
+/**
+ * @brief Generate a vector with n elements
+ *
+ * The vector is filled with random numbers between 10 and 20
+ *
+ * @param n Number of elements in the vector
+ *
+ * @return A vector with n elements, each element is a random number between 10 and 20
+ */
 simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    simfor::vec v(n);  /* create a vector with n elements */
+    
+    /* fill the vector with random numbers between 10 and 20 */
+    for(auto i = 0; i < n; /* increment i after the loop body */)
+    {
+        v[i] = 10*fabsf64x(rand()%10+11);  /* set the current element to a random number between 10 and 20 */
+        ++i;  /* increment i before the loop body */
+    }
     return v;
 }
 

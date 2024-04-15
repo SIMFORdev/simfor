@@ -1,23 +1,43 @@
 #include "simfor/GaussMpi.hpp"
 
-simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
-                {
-                    m(i,j) = 10*fabsf64x(rand()%100+11);
-                }else{
-                    m(i,j) = rand()%10;
-                }
+/**
+ * Generates a square matrix of size n x n, with random values in [0, 10]
+ *
+ * The diagonal elements are set to values in [10, 100]
+ *
+ * @param n size of the matrix to generate
+ *
+ * @return matrix of size n x n with random values in [0, 10]
+ */
+simfor::matr genMatNNB(int n)
+{
+    simfor::matr m(n, n); // Matrix of size n x n
+    for(auto i=0; i<n; ++i) {
+        for(auto j=0; j<n; ++j) {
+            if (i==j) { // Diagonal elements
+                m(i,j) = 10*fabsf64x(rand()%100+11); // [10, 100]
+            } else {
+                m(i,j) = rand()%10; // [0, 10]
             }
         }
-        return m;
+    }
+    return m;
 }
 
-simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+/**
+ * Generates a vector of length n, with random values in [10, 100]
+ *
+ * @param n length of the vector to generate
+ *
+ * @return vector of length n with random values in [10, 100]
+ */
+simfor::vec genVecN(int n)
+{
+    simfor::vec v(n); // Vector of length n
+    for(auto i = 0; i < n; /* increment inside loop */) {
+        v[i] = 10*fabsf64x(rand()%100+11); /* [10, 100] */
+        ++i;
+    }
     return v;
 }
 

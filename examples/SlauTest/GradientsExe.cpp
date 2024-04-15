@@ -1,25 +1,44 @@
 #include "simfor/Gradients.hpp"
 
+/**
+ * @brief Generate matrix with n x n size filled with numbers
+ * 
+ * @param n - matrix size
+ * @return simfor::matr - generated matrix with numbers
+ */
 simfor::matr genMatNNB(int n){
-        simfor::matr m(n, n);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n;j++){
-                if (i==j)
+        simfor::matr m(n, n); // initialize matrix with n x n size
+        for(auto i=0;i<n;i++){ // iterate through rows
+            for(auto j=0;j<n;j++){ // iterate through columns
+                if (i==j) // if element is on diagonal
                 {
-                    m(i,j) = 10*fabsf64x(rand()%10+11);
+                    m(i,j) = 10*fabsf64x(rand()%10+11); // set element to 10 * abs(random number) + 11
                 }else{
-                    m(i,j) = rand()%10;
+                    m(i,j) = rand()%10; // set element to random number
                 }
             }
         }
         return m;
-}
+} // end of function
 
+/**
+ * @brief Generate vector with n elements filled with numbers
+ * 
+ * @param n - vector size
+ * @return simfor::vec - generated vector with numbers
+ */
 simfor::vec genVecN(int n){
+    /* Initialize vector with n elements */
     simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+    /* Iterate through the vector */
+    for(auto i = 0; i < n; /* increment inside loop */)
+    {
+        /* Set i-th element to 10 * abs(random number) + 11 */
+        v[i++] = 10*fabsf64x(rand()%10+11);
+    }
+    /* Return generated vector */
     return v;
-}
+} // end of function genVecN
 
 int main(int argc, char** argv){
 	const int N = 5;

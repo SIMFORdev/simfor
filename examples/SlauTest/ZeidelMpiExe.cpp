@@ -1,23 +1,48 @@
 #include "simfor/ZeidelMpi.hpp"
 
+/**
+ * @brief Generate matrix of size n x n+1 filled with random numbers
+ * 
+ * @param n size of matrix
+ * @return generated matrix
+ */
 simfor::matr genMatNMB(int n){
-        simfor::matr m(n, n+1);
-        for(auto i=0;i<n;i++){
-            for(auto j=0;j<n+1;j++){
-                if (i==j)
-                {
-                    m(i,j) = 10*n*fabsf64x(rand()%100+11);
-                }else{
-                    m(i,j) = rand()%10;
-                }
+    // matrix of size n x n+1
+    simfor::matr m(n, n+1);
+    // iterate through rows
+    for(auto i=0;i<n;i++){
+        // iterate through columns
+        for(auto j=0;j<n+1;j++){
+            // if diagonal element fill it with random number
+            if (i==j)
+            {
+                // multiply random number by 10*n to make diagonal elements big
+                m(i,j) = 10*n*fabsf64x(rand()%100+11);
+            }
+            // else fill with random number from 0 to 9
+            else
+            {
+                m(i,j) = rand()%10;
             }
         }
-        return m;
+    }
+    return m;
 }
 
-simfor::vec genVecN(int n){
-    simfor::vec v(n);
-    for(auto i = 0; i < n; v[i++] = 10*fabsf64x(rand()%10+11)); 
+/**
+ * @brief Generate a vector of size n filled with random numbers
+ * 
+ * @param n size of vector
+ * @return generated vector
+ */
+simfor::vec genVecN(int n)
+{
+    simfor::vec v(n); // Initialize a vector of size n
+    for(auto i = 0; i < n; /* increment is done in the body */) 
+    {
+        // Assign a random number with absolute value between 11 and 20 to the current element
+        v[i++] = 10*fabsf64x(rand()%10+11);
+    }
     return v;
 }
 

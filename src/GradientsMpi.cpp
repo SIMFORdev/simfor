@@ -5,9 +5,18 @@
 
 namespace simfor{
 
+   /**
+    * Метод сопряженных градиентов
+    *
+    * @param A Коэффициенты системы линеареного уравнения
+    * @param B Правая часть системы линейного уравнения
+    * @param iter_num Максимальное количество итераций
+    * @param eps Требуемая точность
+    * @return вектор решения
+    */
    vec ConjugateGradientSolverMpi(const matr &A, const vec &B, size_t iter_num, double eps){
-      //метод сопряжённых градиентов
-      auto n = A.size1(); //возвращает кол-во строк матрицы
+      //возвращает кол-во строк матрицы
+      auto n = A.size1();
       vec X(n, 0.0); //вектор решения
 
       vec R = B;
@@ -15,60 +24,83 @@ namespace simfor{
       size_t k{};  //кол-во текущих итераций
 
       while ((k < iter_num) && (vectorNorm(R) > eps)){
+         //если это первая итерация, то P = R
          if (k == 0)
             P = R;
          else{
+            //вычисляем коэффициент гamma
             auto gamma = -(innerProduct(P, matrixMulVectorMpi(A, R)))/(innerProduct(P, matrixMulVectorMpi(A, P)));
+            //новый вектор P = R + gamma * P
             P = vectorCombinationMpi(1.0, R, gamma, P);
          }
+         //вычисляем коэффициент alpha
          double alpha = innerProduct(P, R) / innerProduct(P, matrixMulVectorMpi(A, P));
-         X = vectorCombinationMpi(1.0, X, alpha, P);            // След. ожидаемое значение
+         //обновляем ожидаемое значение X = X + alpha * P
+         X = vectorCombinationMpi(1.0, X, alpha, P);           
+         //обновляем остаток R = R - alpha * A * P
          R = vectorCombinationMpi(1.0, R, -alpha, matrixMulVectorMpi(A, P)); 
          k++;
          if ((k >= iter_num)){
-            std::cout << "(сопр. градиент)Решение не может быть достигнуто при точности: " << eps << " за " << iter_num << " итераций\n";
+            std::cout << "Решение не может быть достигнуто при точности: " << eps << " за " << iter_num << " итераций\n";
             break;
          }
       }
       return X;
    }
 
+
+   /**
+    * Метод наискорейшего спуска
+    *
+    * @param A Коэффициенты системы линеареного уравнения
+    * @param B Правая часть системы линейного уравнения
+    * @param iter_num Максимальное количество итераций
+    * @param eps Требуемая точность
+    * @return вектор решения
+    */
    vec SteepestDescentSolverMpi(const matr &A, const vec &B, size_t iter_num, double eps){
-        auto n = A.size1();
-        vec X(n, 0.0);
+        auto n = A.size1(); //возвращает кол-во строк матрицы
+        vec X(n, 0.0);      //вектор решения
 
         vec R = B;
-        size_t k{};
+        size_t k{};          //кол-во текущих итераций
 
         mpi::communicator world;
         int p = world.size();
         int r = world.rank();
 
+        //распределяем на части вектор решения
         int cnt = floor(n / p);
         int from = r * cnt;
         int to = n;
         if ( r != p-1 ) to = from + cnt;
 
+        // цикл итераций
         while ((k < iter_num) && (vectorNorm(R) > eps)){
-            world.barrier();
-            double alpha, a1, a2;
-            vec P = R;
-            vec Q = matrixMulVectorMpi(A, P);
 
-            a1 = innerProduct(P, R);
-            a2 = innerProduct(P, Q);
-            alpha = a1/a2;
-            X = vectorCombinationMpi(1.0, X, alpha, P);            // След. ожидаемое значение
-            R = vectorCombinationMpi(1.0, R, -alpha, Q);          // Остаток
+            world.barrier();  //синхронизация процессов
+
+            double alpha, a1, a2;  //коэффициенты приближенного решения
+            vec P = R;            //вектор итерационного улучшения
+            vec Q = matrixMulVectorMpi(A, P);  //вектор приближенного решения
+
+            a1 = innerProduct(P, R);     //итерационный улучшение
+            a2 = innerProduct(P, Q);     //приближенное решение
+            alpha = a1/a2;                 //коэффициент приближенного решения
+
+            X = vectorCombinationMpi(1.0, X, alpha, P);   //След. ожидаемое значение
+            R = vectorCombinationMpi(1.0, R, -alpha, Q);  //Остаток
             k++;
+
             if ((k >= iter_num)){
                 std::cout << "(наиск. спуск)Решение не может быть достигнуто при точности: " << eps << " за " << iter_num << " итераций\n";
                 break;
             }
-            world.barrier();
+            world.barrier();  //синхронизация процессов
         }
         return X;
    }
+
 
    vec matrixMulVectorMpi(const matr &A, const vec &V)     // умножение матрицы на вектор
    {
