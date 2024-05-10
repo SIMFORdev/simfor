@@ -1,111 +1,95 @@
-# SIMFOR
+# SIMFOR_plotter_c
 
-## Добавление нового модуля
-1) Создать хедер и поместить его в include/simfor 
-2) Создать файл сорцов и поместить его в src 
-3) В CMakeLists.txt прописать путь до хедера в `SIMFOR_INCLUDES` и 
-путь до исходного файла в `SIMFOR_SOURCES`.
-4) В `examples` необходимо сделать свою папку, в которой будет лежать 
-ваш исполняемый файл. Пусть папка будет называться `example`.
-5) Там необходимо создать одноименный `.cpp` файл, например `example.cpp`,
-и `CMakeLists.txt` файл. Его содержание скопировать от сюда:
-```cmake
-cmake_minimum_required(VERSION 3.21)
-project(example)
+SIMFOR_plotter_c - модуль графического вывода для системы математического моделирования на языке программирования C++.
 
-set(CMAKE_CXX_STANDARD 17)
+![sin cos](sin_cos_net.png)
+![Гиперболический параболоид](Гиперболический_параболоид.png)
 
-add_executable(${PROJECT_NAME} example.cpp)
+Библиотека разрабатывалась и тестировалась под операционной системой Ubuntu 22.04.4 LTS. Компилятор g++ 11.4.0. Make 4.3.
 
-target_link_libraries(${PROJECT_NAME} PUBLIC simfor)
+Модуль состоит из заголовочного файла plotter.h, файла реализации plotter.cpp. Приведены тестовые примеры и Makefile для сборки библиотеки и примеров.
+
+## Особенности
+* Работа с 2D и 3D графиками;
+* Отображение нескольких графиков в одном окне;
+* Настройки отображения (размер окна; текст осей, легенды; цвет, стиль графиков);
+* Управление камерой с помощью клавиатуры (масштабирование, перемещение, поворот).
+
+## Установка
+1. Установите требуемые зависимости:
 ```
-
-Пример:
-
-- Создали `SomeClass.hpp` и добавили его в `include/simfor`. Теперь его путь 
-`include/simfor/SomeClass.hpp`
-- Создали `SomeClass.cpp` и добавили его в `src`. Теперь его путь
-  `include/simfor/SomeClass.cpp`.
-- Обновили `CMakeLists.txt`.
-```cmake
-set(SIMFOR_INCLUDES
-        # Public API includes
-        include/simfor/SomeClass.hpp # <- Добавили тут
-        # Private API includes
-        include/simfor/internal/types.hpp
-)
-
-set(SIMFOR_SOURCES
-        ${SIMFOR_INCLUDES}
-        src/SomeClass.cpp            # <- Добавили тут
-)
+sudo apt-get update
 ```
-- Создаем папку и исполняемый файл в examples. Папку назовем `SomeClassTest`,
-а файл соответственно `SomeClassExe.cpp`.
-```c++
-#include <iostream>
-#include "simfor/SomeClass.hpp"
-
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/io.hpp>
-
-int main(int argc, char **argv) {
-	std::cout << "Hello examples in SIMFOR\n";
-	simfor::SomeClass testclass;
-	testclass.HelloWorld();
-
-	using namespace boost::numeric::ublas;
-	matrix<double> m (3, 3);
-	for (unsigned i = 0; i < m.size1 (); ++ i)
-		for (unsigned j = 0; j < m.size2 (); ++ j)
-			m (i, j) = 3 * i + j;
-	std::cout << m << std::endl;
-	return 0;
-}
 ```
-- Создаем `CMakeLists.txt` и заполняем его, не забывая изменить `project` и 
-`add_executable`.
-```cmake
-cmake_minimum_required(VERSION 3.21)
-project(SomeClassTest)
-
-set(CMAKE_CXX_STANDARD 17)
-
-add_executable(${PROJECT_NAME} SomeClassTest.cpp)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC simfor)
+sudo apt-get install freeglut3 freeglut3-dev
 ```
-
-В итоге получается следующая структура папок:
-
-```text
-examples/
-    ...
-    SomeClassTest/
-        CMakeLists.txt         <- CMakeLists.txt от SomeClassTest
-        SomeClassTest.cpp
-    ...
-include/
-    simfor/
-        ...
-        SomeClass.hpp
-        ...
-src/
-    ...
-    SomeClass.cpp
-    ...
-CMakeLists.txt                 <- корневой CMakeLists.txt
 ```
-
-## Сборка и запуск для разработчиков
-```shell
-mkdir build
-cd build
-cmake ..
+sudo apt-get install make
+```
+```
+sudo apt-get install g++
+```
+2. Клонируйте репозиторий:
+```
+git clone https://github.com/vadimts0y/SIMFOR_plotter_c.git
+```
+3. Перейдите в каталог SIMFOR_plotter_c:
+```
+cd SIMFOR_plotter_c
+```
+4. Соберите библиотеку и тесты:
+```
 make
-# Пусть наша папка в которой мы работаем называется examples/SomeClassTest.
-cd examples/SomeClassTest
-./SomeClassTest
+```
+или сборка статической библиотеки:
+```
+g++ -c plotter.cpp -o plotter.o
+```
+```
+ar rcs libplotter.a plotter.o
+```
+Компиляция вашей программы test:
+```
+g++ test.cpp -o test -L. -lplotter -lGL -lglut
 ```
 
-Если при запуске `SomeClassTest` у вас все заработало, значит все сделано правильно.
+Makefile собирает статическую библиотеку libplotter.a и примеры test_2d, test_3d, test_points.
+
+**Управление (зависит от раскладки и регистра)**
+* "o" - циклический выбор отображаемого графика;
+* "i" - вкл/выкл показа всех графиков;
+* "g" - циклическая смена режима отображения графиков:
+Для графика: линия -> точка -> точки и линии;
+Для поверхности: точки-> линии с точками -> линии -> заливка с слабозаметными линиями;
+
+* "x","y","z" - поворот вокруг соответсвующей оси;
+* "X","Y","Z" - поворот в обратную сторону;
+
+* "w","s" - перемещение по оси У;
+* "a","d" - перемещение по оси X;
+* "q","e" - перемещение по оси Z;
+
+* "l" - показать легенду;
+
+* "n" - сетка;
+* "m" - миллиметровый режим.
+
+## Внесение вклада
+Если у вас есть идеи для улучшения, новых функций или исправления ошибок, не стесняйтесь создавать issues и отправлять pull request.
+
+## Лицензия
+Библиотека распространяется под лицензией MIT. См. файл LICENSE для подробностей.
+
+## Авторы
+Цой Вадим Олегович.
+
+## Благодарности
+Отдельное спасибо научному руководителю Алексееву Евгению Ростиславовичу.
+
+## Поддержка
+По любым вопросам, пожалуйста, свяжитесь по почте vadim086.90@mail.ru.
+
+## Отказ от ответственности
+Библиотека предоставляется без каких-либо гарантий. Используйте на свой страх и риск.
+
+
