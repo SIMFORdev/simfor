@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <GL/glut.h>
-#include "plotter.h"
+#include "../include/simfor/plotter.h"
 
 
 using namespace std;
