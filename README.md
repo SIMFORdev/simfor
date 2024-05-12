@@ -7,10 +7,26 @@ sudo apt-get install freeglut3 freeglut3-dev
 ```
 
 2. Соберите библиотеку и тесты:
+
+* Makefile
 ```
 make
 ```
-или сборка статической библиотеки:
+
+* или CMake
+```
+mkdir build
+```
+cd build
+```
+```
+cmake ..
+```
+```
+make
+```
+
+* или сборка статической библиотеки:
 ```
 g++ -c plotter.cpp -o plotter.o
 ```
