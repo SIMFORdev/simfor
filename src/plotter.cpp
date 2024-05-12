@@ -1,4 +1,4 @@
-#include "plotter.h"
+#include "../include/simfor/plotter.h"
 
 
 // Проверка: находится ли число между диапазонами.
