@@ -1,37 +1,45 @@
 CC=g++
 CFLAGS=-Wall -Wextra
 LDFLAGS=-L. -lplotter -lGL -lglut
+SRCDIR=src
+OBJDIR=build
+EXAMDIR=examples
 
 # Цели
-all: libplotter.a test_2d test_3d test_points
+all: $(OBJDIR) libplotter.a examples/test_2d examples/test_3d examples/test_points
+
+# Каталог build
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 # Библиотека
-libplotter.a: plotter.o
+libplotter.a: $(OBJDIR)/plotter.o
 	ar rcs $@ $^
 
 # Объектные файлы
-plotter.o: src/plotter.cpp
+$(OBJDIR)/plotter.o: $(SRCDIR)/plotter.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-test_2d.o: examples/test_2d.cpp
+$(OBJDIR)/test_2d.o: $(EXAMDIR)/test_2d.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-test_3d.o: examples/test_3d.cpp
+$(OBJDIR)/test_3d.o: $(EXAMDIR)/test_3d.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-test_points.o: examples/test_points.cpp
+$(OBJDIR)/test_points.o: $(EXAMDIR)/test_points.cpp
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 # Исполняемые файлы
-test_2d: test_2d.o libplotter.a
+$(EXAMDIR)/test_2d: $(OBJDIR)/test_2d.o libplotter.a
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-test_3d: test_3d.o libplotter.a
+$(EXAMDIR)/test_3d: $(OBJDIR)/test_3d.o libplotter.a
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-test_points: test_points.o libplotter.a
+$(EXAMDIR)/test_points: $(OBJDIR)/test_points.o libplotter.a
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 # Очистка
 clean:
-	rm -f *.o *.a test_2d test_3d test_points
+	rm -f *.a $(EXAMDIR)/test_2d $(EXAMDIR)/test_3d $(EXAMDIR)/test_points
+	rm -rf $(OBJDIR)
