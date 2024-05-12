@@ -42,8 +42,6 @@ ar rcs libplotter.a plotter.o
 g++ test.cpp -o test -L. -lplotter -lGL -lglut
 ```
 
-Makefile собирает статическую библиотеку libplotter.a и примеры test_2d, test_3d, test_points.
-
 **Управление (зависит от раскладки и регистра)**
 * "o" - циклический выбор отображаемого графика;
 * "i" - вкл/выкл показа всех графиков;
