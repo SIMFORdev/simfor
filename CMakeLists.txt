@@ -8,17 +8,20 @@ option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
 option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
 option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
 
-find_package(Boost 1.83.0 REQUIRED)
+#find_package(Boost 1.83.0 REQUIRED)
+find_package(GLUT REQUIRED)
+find_package(OpenGL REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIR})
 
 add_library(${PROJECT_NAME})
 
-add_compile_options(-O3)
+add_compile_options(-fPIC)
 
 set(SIMFOR_INCLUDES
         # Public API includes
         include/simfor/SomeClass.hpp
+        include/simfor/plotter.h
         # Private API includes
         include/simfor/internal/types.hpp
 )
@@ -26,6 +29,7 @@ set(SIMFOR_INCLUDES
 set(SIMFOR_SOURCES
         ${SIMFOR_INCLUDES}
         src/SomeClass.cpp
+        src/plotter.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})
