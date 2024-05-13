@@ -9,8 +9,10 @@ option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
 option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
 
 #find_package(Boost 1.83.0 REQUIRED)
-find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+
+
 
 include_directories(${Boost_INCLUDE_DIR})
 

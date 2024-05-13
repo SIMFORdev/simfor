@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 project(plotter)
 
-#find_package(GLUT REQUIRED)
-#find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+find_package(OpenGL REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 
