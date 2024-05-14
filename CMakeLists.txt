@@ -11,12 +11,14 @@ option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
 find_package(MPI REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(Boost 1.84.0 REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIR})
 
 add_library(${PROJECT_NAME})
 
-add_compile_options(-O3)
+add_compile_options(-O3 -fPIC)
 
 set(SIMFOR_INCLUDES
         # Public API includes
@@ -42,7 +44,9 @@ set(SIMFOR_INCLUDES
         include/simfor/odu.hpp
         include/simfor/elementary.hpp
         include/simfor/classic.hpp
-        include/simfor/SomeClass.hpp
+
+        include/simfor/plotter.h
+
         # Private API includes
         include/simfor/internal/types.hpp
 )
@@ -72,7 +76,8 @@ set(SIMFOR_SOURCES
         src/odu.cpp
         src/classic.cpp
         src/elementary.cpp
-        src/SomeClass.cpp
+
+        src/plotter.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})
@@ -90,6 +95,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC boost_mpi OpenMP::OpenMP_CXX MPI::MPI_CXX)
+message(STATUS ${OPENGL_gl_LIBRARY})
+message(STATUS ${GLUT_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC -lGL -lglut)
 
 target_compile_options(${PROJECT_NAME} PUBLIC ${OpenMP_CXX_FLAGS})
 

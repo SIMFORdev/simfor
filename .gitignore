@@ -68,6 +68,14 @@ out/
 # JIRA plugin
 atlassian-ide-plugin.xml
 
+*.o
+*.a
+
+test_2d
+test_3d
+test_points
+
+
 # Cursive Clojure plugin
 .idea/replstate.xml
 
