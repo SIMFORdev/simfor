@@ -88,7 +88,7 @@ int main ( int argc, char* argv [] )
         }
 
     t = clock();
-    Y = simfor::rk_system_solve_matrix_mpi ( h, n, x0, F );
+    Y = simfor::rk4_system_solve_matrix_mpi ( h, n, x0, F );
     if ( !world.rank() )
         {
         t = ( clock() - t ) / CLOCKS_PER_SEC ;

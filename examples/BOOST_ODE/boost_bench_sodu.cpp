@@ -81,7 +81,7 @@ int main ( int argc, char* argv [] )
     std::cout << "ESEQ " << t  << "\n";
 
     t = clock();
-    Y = simfor::rk_system_solve_matrix ( h, n, x0, F );
+    Y = simfor::rk4_system_solve_matrix ( h, n, x0, F );
     t = ( clock() - t ) / CLOCKS_PER_SEC ;
 
     std::cout << "RKSEQ " << t  << "\n" << Y;

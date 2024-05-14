@@ -7,13 +7,14 @@
 
 float odu ( float t, float x )
     {
+    //return x*x - x*x*x;
     //return t*t - 2*x;
     return ( 6*x - 13*t*t*t - 22*t*t + 17*t - 11 + sin ( t ) );
     }
 float solution ( float t )
     {
-    return ( 13.*t*t*t ) /6 + ( 19.*t*t ) /4 - ( 5.*t ) /4 + 13./8 - cos ( t ) /37. - ( 6*sin ( t ) ) /37. + ( 119.*exp ( 6*t ) ) /296;
-    //( 3./4 * exp ( -2*t ) + 1./2*t*t - 1./2*t + 1./4 );
+    //return ( 13.*t*t*t ) /6 + ( 19.*t*t ) /4 - ( 5.*t ) /4 + 13./8 - cos ( t ) /37. - ( 6*sin ( t ) ) /37. + ( 119.*exp ( 6*t ) ) /296;
+    return ( 3./4 * exp ( -2*t ) + 1./2*t*t - 1./2*t + 1./4 );
     }
 
 void write_matr ( const std::string file, const simfor::matr A )
@@ -39,9 +40,10 @@ simfor::vec absvec(simfor::vec v)
 int main()
     {
 
-    float a = 0, b = 1, x0 = solution ( a );
+    float a = 0, b = 5, x0 = solution(a);
     int n = 100;
     float h = 1e-2;
+    simfor::matr adaptive;
     simfor::matr data ( 4, n+1 );
 
     for ( int i = 0; i < n+1; ++i )
@@ -50,18 +52,18 @@ int main()
         data ( 1, i ) = solution ( data ( 0, i ) );
         }
 
-
     row ( data, 2 ) = simfor::eiler_function_solve ( a, b, h, n, odu, x0 );
     row ( data, 3 ) = absvec ( row ( data, 2 ) - row ( data, 1 ) );
     write_matr ( "odu_1_Eul.txt", data);
 //     std::cout << row ( data, 2 ) ( n ) - solution ( b ) << "\n";
 
-
-
-    row ( data, 2 ) = simfor::rk_function_solve ( a, b, h, n, odu, x0 );
+    row ( data, 2 ) = simfor::rk4_function_solve ( a, b, h, n, odu, x0 );
     row ( data, 3 ) = absvec ( row ( data, 2 ) - row ( data, 1 ) );
-    write_matr ( "odu_1_RK.txt", data);
+    write_matr ( "odu_1_RK4.txt", data);
 //     std::cout << row ( data, 2 ) ( n ) - solution ( b ) << "\n";
+    adaptive = simfor::rk54 ( a, b, odu, x0, 10e-3, 10e-4, 10e-1 );
+    write_matr ( "odu_1_RK54.txt", adaptive);
+    std::cout << solution(b) - adaptive ( 1, adaptive.size2()-1 )<< "\n";
 
     row ( data, 2 ) = simfor::AdMiln_function_solve ( a, b, h, n, odu, x0 );
     row ( data, 3 ) = absvec ( row ( data, 2 ) - row ( data, 1 ) );

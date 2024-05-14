@@ -1,5 +1,5 @@
 #include <iostream>
-#include <simfor/sodu.hpp>
+#include <simfor/odu.hpp>
 
 float koef_matrix_settings ( unsigned j, unsigned i, unsigned n )
     {
@@ -11,9 +11,9 @@ float koef_matrix_settings ( unsigned j, unsigned i, unsigned n )
     return value;
     }
 
-simfor::matrix<float> odu_matrix_create ( unsigned n )
+simfor::matr odu_matrix_create ( unsigned n )
     {
-    simfor::matrix<float> M ( n, n );
+    simfor::matr M ( n, n );
     for ( int i = 0; i < n; i++ )
         for ( int j = 0; j < n; j++ )
             M ( i, j ) = koef_matrix_settings ( j,i,n );
@@ -51,9 +51,9 @@ float integral_result ( float x, int number )
     return integral;
     }
 
-simfor::vector<float> initial_cond ( float a, int n )
+simfor::vec initial_cond ( float a, int n )
     {
-    simfor::vector<float> y0 ( n );
+    simfor::vec y0 ( n );
     for ( unsigned i = 0; i < n; ++i )
         y0 ( i ) = integral_result ( a, i );
     return y0;
@@ -64,8 +64,8 @@ int main ( int argc, char* argv [] )
     int n = atoi ( argv [ 1 ] ), p = atoi ( argv [ 2 ] );
     float a=0, b=1, h;
     h = ( b - a ) / n;
-    simfor::matrix<float> F = odu_matrix_create ( n ), Y;
-    simfor::vector<float> x0 = initial_cond ( 1, n );
+    simfor::matr F = odu_matrix_create ( n ), Y;
+    simfor::vec x0 = initial_cond ( 1, n );
 
     omp_set_num_threads ( p );
 
@@ -83,7 +83,7 @@ int main ( int argc, char* argv [] )
     std::cout << "E_OMP " << t  << "\n";
 
     t = omp_get_wtime();
-    Y = simfor::rk_system_solve_matrix_omp ( h, n, x0, F );
+    Y = simfor::rk4_system_solve_matrix_omp ( h, n, x0, F );
     t = ( omp_get_wtime() - t );
     std::cout << "RK_OMP " << t  << "\n";
 

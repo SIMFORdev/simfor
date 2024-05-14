@@ -59,6 +59,10 @@ matr rk6_system_solve_matrix_mpi ( float, int, vec, matr);
 //Runge-Kutta Dormand-Prince method
 matr rk54( float, float, float ( * ) ( float, float ), float , float, float, float);
 matr rk54( float, float, float, vec( * ) ( float, vec), vec, float , float, float );
+
+//Runge-Kutta Fahlberg method
+matr rk45( float, float, float ( * ) ( float, float ), float , float, float, float);
+matr rk45( float, float, float, vec( * ) ( float, vec), vec, float , float, float );
 }
 
 #endif
