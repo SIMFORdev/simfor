@@ -9,7 +9,7 @@ option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
 option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
 
 
-find_package(Boost 1.82.0 REQUIRED)
+find_package(Boost 1.83.0 REQUIRED)
 find_package(OpenMP 4.5 REQUIRED)
 find_package(MPI REQUIRED)
 
@@ -24,7 +24,9 @@ add_compile_options(-O3)
 set(SIMFOR_INCLUDES
         # Public API includes
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/odu.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/sodu.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/elementary.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/classic.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/SomeClass.hpp
         # Private API includes
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/internal/types.hpp
 )
@@ -33,7 +35,9 @@ set(SIMFOR_SOURCES
         ${SIMFOR_INCLUDES}
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/odu.cpp
-         ${CMAKE_CURRENT_SOURCE_DIR}/src/sodu.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/classic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/elementary.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/SomeClass.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})
