@@ -2,11 +2,12 @@ cmake_minimum_required(VERSION 3.21)
 project(simfor
         VERSION 0.0.1
         DESCRIPTION "SIMFOR framework library"
-        LANGUAGES ASM C CXX)
+        LANGUAGES C CXX)
 
 option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
 option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
 option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
+
 find_package(MPI REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(Boost 1.84.0 REQUIRED)
@@ -15,8 +16,8 @@ include_directories(${Boost_INCLUDE_DIR})
 
 add_library(${PROJECT_NAME})
 
-
 add_compile_options(-O3)
+
 set(SIMFOR_INCLUDES
         # Public API includes
         include/simfor/SomeClass.hpp
@@ -26,8 +27,8 @@ set(SIMFOR_INCLUDES
         include/simfor/Zeidel.hpp
         include/simfor/ZeidelOmp.hpp
         include/simfor/ZeidelMpi.hpp
-        include/simfor/LUdecomp.hpp        
-        include/simfor/LUdecompOmp.hpp        
+        include/simfor/LUdecomp.hpp
+        include/simfor/LUdecompOmp.hpp
         include/simfor/SimpleIter.hpp
         include/simfor/SimpleIterOmp.hpp
         include/simfor/SimpleIterMpi.hpp
@@ -37,12 +38,18 @@ set(SIMFOR_INCLUDES
         include/simfor/Tridiagonal.hpp
         include/simfor/TridiagonalOmp.hpp
         include/simfor/TridiagonalMpi.hpp
+
+        include/simfor/odu.hpp
+        include/simfor/elementary.hpp
+        include/simfor/classic.hpp
+        include/simfor/SomeClass.hpp
         # Private API includes
         include/simfor/internal/types.hpp
 )
 
 set(SIMFOR_SOURCES
         ${SIMFOR_INCLUDES}
+
         src/SomeClass.cpp
         src/Gauss.cpp
         src/GaussOmp.cpp
@@ -61,6 +68,11 @@ set(SIMFOR_SOURCES
         src/Tridiagonal.cpp
         src/TridiagonalOmp.cpp
         src/TridiagonalMpi.cpp
+
+        src/odu.cpp
+        src/classic.cpp
+        src/elementary.cpp
+        src/SomeClass.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})
