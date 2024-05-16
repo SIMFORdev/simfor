@@ -5,13 +5,13 @@
 #include <iostream>
 #include <fstream>
 
-float odu ( float t, float x )
+double odu ( double t, double x )
     {
     //return x*x - x*x*x;
     //return t*t - 2*x;
     return ( 6*x - 13*t*t*t - 22*t*t + 17*t - 11 + sin ( t ) );
     }
-float solution ( float t )
+double solution ( double t )
     {
     //return ( 13.*t*t*t ) /6 + ( 19.*t*t ) /4 - ( 5.*t ) /4 + 13./8 - cos ( t ) /37. - ( 6*sin ( t ) ) /37. + ( 119.*exp ( 6*t ) ) /296;
     return ( 3./4 * exp ( -2*t ) + 1./2*t*t - 1./2*t + 1./4 );
@@ -40,9 +40,9 @@ simfor::vec absvec(simfor::vec v)
 int main()
     {
 
-    float a = 0, b = 5, x0 = solution(a);
+    double a = 0, b = 5, x0 = solution(a);
     int n = 100;
-    float h = 1e-2;
+    double h = 1e-2;
     simfor::matr adaptive;
     simfor::matr data ( 4, n+1 );
 

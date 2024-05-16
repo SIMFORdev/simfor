@@ -8,9 +8,9 @@ option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
 option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
 option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
 
-find_package(MPI REQUIRED)
-find_package(OpenMP REQUIRED)
 find_package(Boost 1.84.0 REQUIRED)
+find_package(OpenMP REQUIRED)
+find_package(MPI REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
@@ -95,8 +95,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC boost_mpi OpenMP::OpenMP_CXX MPI::MPI_CXX)
-message(STATUS ${OPENGL_gl_LIBRARY})
-message(STATUS ${GLUT_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PUBLIC -lGL -lglut)
 
 target_compile_options(${PROJECT_NAME} PUBLIC ${OpenMP_CXX_FLAGS})

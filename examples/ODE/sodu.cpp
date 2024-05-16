@@ -3,20 +3,20 @@
 
 namespace simfor
 {
-float adams_bashford_koeff ( int i )
+double adams_bashford_koeff ( int i )
     {
-    float a[5] = {1901. / 720., 1387. / 360., 109. / 30., 637. / 360., 251. / 720.};
+    double a[5] = {1901. / 720., 1387. / 360., 109. / 30., 637. / 360., 251. / 720.};
     return a[i];
     }
-float adams_moulton_koeff ( int i )
+double adams_moulton_koeff ( int i )
     {
-    float a[5] = {251. / 720., 646. / 720., 264. / 720., 106. / 720., 19. / 720.};
+    double a[5] = {251. / 720., 646. / 720., 264. / 720., 106. / 720., 19. / 720.};
     return a[i];
     }
-matrix<float> adams5_system_solve_matrix ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> adams5_system_solve_matrix ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4, k5;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4, k5;
+    matrix<double> Y ( n + 1, y_0.size() );
 
     Y.set_submatrix ( rk_system_solve_matrix ( h, 4, y_0, F ), 0, 5, 0, y_0.size() );
 
@@ -35,10 +35,10 @@ matrix<float> adams5_system_solve_matrix ( float h, int n, vector<float> y_0, ma
     }
 
 //TODO add omp for scalar-vector mult
-matrix<float> adams5_system_solve_matrix_omp ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> adams5_system_solve_matrix_omp ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4, k5;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4, k5;
+    matrix<double> Y ( n + 1, y_0.size() );
 
     Y.set_submatrix ( rk_system_solve_matrix_omp ( h, 4, y_0, F ), 0, 5, 0, y_0.size() );
 
@@ -56,10 +56,10 @@ matrix<float> adams5_system_solve_matrix_omp ( float h, int n, vector<float> y_0
     }
 
 //TODO add omp for scalar-vector mult
-matrix<float> adams5_system_solve_matrix_mpi ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> adams5_system_solve_matrix_mpi ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4, k5;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4, k5;
+    matrix<double> Y ( n + 1, y_0.size() );
 
 
     Y.set_submatrix ( rk_system_solve_matrix_mpi ( h, 4, y_0, F ), 0, 5, 0, y_0.size() );
@@ -79,10 +79,10 @@ matrix<float> adams5_system_solve_matrix_mpi ( float h, int n, vector<float> y_0
     }
 
 //Метод Адамса-Моултона
-matrix<float> AdMltn_system_solve_matrix ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> AdMltn_system_solve_matrix ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4;
+    matrix<double> Y ( n + 1, y_0.size() );
 
     Y.set_submatrix ( rk_system_solve_matrix ( h, 4, y_0, F ), 0, 5, 0, y_0.size() );
 
@@ -108,10 +108,10 @@ matrix<float> AdMltn_system_solve_matrix ( float h, int n, vector<float> y_0, ma
     return Y;
     }
 
-matrix<float> AdMltn_system_solve_matrix_omp ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> AdMltn_system_solve_matrix_omp ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4;
+    matrix<double> Y ( n + 1, y_0.size() );
 
     Y.set_submatrix ( rk_system_solve_matrix_omp ( h, 4, y_0, F ), 0, 5, 0, y_0.size() );
 
@@ -138,10 +138,10 @@ matrix<float> AdMltn_system_solve_matrix_omp ( float h, int n, vector<float> y_0
     return Y;
     }
 
-matrix<float> AdMltn_system_solve_matrix_mpi ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> AdMltn_system_solve_matrix_mpi ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4;
+    matrix<double> Y ( n + 1, y_0.size() );
 
     Y.set_submatrix ( rk_system_solve_matrix_mpi ( h, 4, y_0, F ), 0, 5, 0, y_0.size() );
 
@@ -169,10 +169,10 @@ matrix<float> AdMltn_system_solve_matrix_mpi ( float h, int n, vector<float> y_0
     }
 
 
-matrix<float> eiler_system_solve_matrix ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> eiler_system_solve_matrix ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    matrix<float> Y ( n + 1, y_0.size() );
-    vector<float> a ( y_0.size() );
+    matrix<double> Y ( n + 1, y_0.size() );
+    vector<double> a ( y_0.size() );
     Y.set_row ( y_0, 0 );
     for ( int i = 0; i < n; ++i )
         {
@@ -181,9 +181,9 @@ matrix<float> eiler_system_solve_matrix ( float h, int n, vector<float> y_0, mat
     return Y;
     }
 
-matrix<float> eiler_system_solve_matrix_omp ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> eiler_system_solve_matrix_omp ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    matrix<float> Y ( n + 1, y_0.size() );
+    matrix<double> Y ( n + 1, y_0.size() );
     row ( Y, 0 ) = y_0;
 
     for ( int i = 0; i < n; ++i )
@@ -191,9 +191,9 @@ matrix<float> eiler_system_solve_matrix_omp ( float h, int n, vector<float> y_0,
     return Y;
     }
 
-matrix<float> eiler_system_solve_matrix_mpi ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> eiler_system_solve_matrix_mpi ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    matrix<float> Y ( n + 1, y_0.size() );
+    matrix<double> Y ( n + 1, y_0.size() );
     row ( Y, 0 ) = y_0;
 
     for ( int i = 0; i < n; ++i )
@@ -201,10 +201,10 @@ matrix<float> eiler_system_solve_matrix_mpi ( float h, int n, vector<float> y_0,
     return Y;
     }
 
-matrix<float> rk_system_solve_matrix ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> rk_system_solve_matrix ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    matrix<float> Y ( n + 1, y_0.size() );
-    vector<float> k1, k2, k3, k4;
+    matrix<double> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4;
     Y.set_row ( y_0, 0 );
     for ( int i = 0; i < n; ++i )
         {
@@ -217,10 +217,10 @@ matrix<float> rk_system_solve_matrix ( float h, int n, vector<float> y_0, matrix
     return Y;
     }
 
-matrix<float> rk_system_solve_matrix_omp ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> rk_system_solve_matrix_omp ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4;
+    matrix<double> Y ( n + 1, y_0.size() );
     row ( Y, 0 ) = y_0;
 
     for ( int i = 0; i < n; ++i )
@@ -235,10 +235,10 @@ matrix<float> rk_system_solve_matrix_omp ( float h, int n, vector<float> y_0, ma
     return Y;
     }
 
-matrix<float> rk_system_solve_matrix_mpi ( float h, int n, vector<float> y_0, matrix<float> F )
+matrix<double> rk_system_solve_matrix_mpi ( double h, int n, vector<double> y_0, matrix<double> F )
     {
-    vector<float> k1, k2, k3, k4;
-    matrix<float> Y ( n + 1, y_0.size() );
+    vector<double> k1, k2, k3, k4;
+    matrix<double> Y ( n + 1, y_0.size() );
     row ( Y, 0 ) = y_0;
 
 
