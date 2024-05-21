@@ -1,18 +1,41 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.8...3.21)
 project(simfor
         VERSION 0.0.1
         DESCRIPTION "SIMFOR framework library"
         LANGUAGES C CXX)
 
-option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
-option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
-option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+include(utils)
+
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
 
 find_package(Boost 1.84.0 COMPONENTS mpi REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(MPI REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
+
+option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
+option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
+option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
+option(SIMFOR_INSTALL "Generate the install target" ON)
+
+set(SIMFOR_INC_DIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE STRING
+        "Installation directory for include files, a relative path that will be
+            joined with ${CMAKE_INSTALL_PREFIX} or an absolute path.")
+
+file(READ include/simfor/internal/version.hpp version_h)
+if (NOT version_h MATCHES "SIMFOR_VERSION ([0-9]+)([0-9][0-9])([0-9][0-9])")
+    message(FATAL_ERROR "Cannot get SIMFOR_VERSION from version.h.")
+endif ()
+math(EXPR CPACK_PACKAGE_VERSION_MAJOR ${CMAKE_MATCH_1})
+math(EXPR CPACK_PACKAGE_VERSION_MINOR ${CMAKE_MATCH_2})
+math(EXPR CPACK_PACKAGE_VERSION_PATCH ${CMAKE_MATCH_3})
+join(SIMFOR_VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.
+        ${CPACK_PACKAGE_VERSION_PATCH})
+message(STATUS "{simfor} version: ${SIMFOR_VERSION}")
 
 add_library(${PROJECT_NAME})
 
@@ -87,10 +110,12 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:${SIMFOR_INC_DIR}>
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${Boost_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC
+        ${Boost_INCLUDE_DIR}
+)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
         ${Boost_LIBRARIES}
@@ -109,8 +134,73 @@ if (SIMFOR_BUILD_TESTS)
     add_subdirectory(test)
 endif ()
 
+if (SIMFOR_INSTALL)
+    set(SIMFOR_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/simfor" CACHE STRING
+            "Installation directory for cmake files, a relative path that will be
+            joined with ${CMAKE_INSTALL_PREFIX} or an absolute path.")
+
+    set(version_config ${PROJECT_BINARY_DIR}/simfor-config-version.cmake)
+    set(project_config ${PROJECT_BINARY_DIR}/simfor-config.cmake)
+    set(pkgconfig ${PROJECT_BINARY_DIR}/simfor.pc)
+    set(targets_export_name simfor-targets)
+
+    set(SIMFOR_LIB_DIR "${CMAKE_INSTALL_LIBDIR}" CACHE STRING
+            "Installation directory for libraries, a relative path that will be joined
+            to ${CMAKE_INSTALL_PREFIX} or an absolute path.")
+    set(SIMFOR_PKGCONFIG_DIR "${CMAKE_INSTALL_LIBDIR}/pkgconfig" CACHE STRING
+            "Installation directory for pkgconfig (.pc) files, a relative path that will
+             be joined with ${CMAKE_INSTALL_PREFIX} or an absolute path.")
+
+    set(SIMFOR_LIB_NAME ${PROJECT_NAME})
+
+    write_basic_package_version_file(
+            ${version_config}
+            VERSION ${FMT_VERSION}
+            COMPATIBILITY AnyNewerVersion
+    )
+
+    join_paths(libdir_for_pc_file "\${exec_prefix}" "${SIMFOR_LIB_DIR}")
+    join_paths(includedir_for_pc_file "\${prefix}" "${SIMFOR_INC_DIR}")
+
+    configure_file(
+            "${PROJECT_SOURCE_DIR}/cmake/simfor.pc.in"
+            "${pkgconfig}"
+            @ONLY
+    )
+    configure_package_config_file(
+            "${PROJECT_SOURCE_DIR}/cmake/simfor-config.cmake.in"
+            "${project_config}"
+            INSTALL_DESTINATION ${SIMFOR_CMAKE_DIR}
+    )
+
+    set(INSTALL_TARGETS simfor)
+
+    message(STATUS ${SIMFOR_INC_DIR})
+
+    # Install the library and headers.
+    install(TARGETS ${INSTALL_TARGETS} EXPORT ${targets_export_name}
+            LIBRARY DESTINATION ${SIMFOR_LIB_DIR}
+            ARCHIVE DESTINATION ${SIMFOR_LIB_DIR}
+            PUBLIC_HEADER DESTINATION "${SIMFOR_INC_DIR}/simfor"
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+    # Use a namespace because CMake provides better diagnostics for namespaced
+    # imported targets.
+    export(TARGETS ${INSTALL_TARGETS} NAMESPACE simfor::
+            FILE ${PROJECT_BINARY_DIR}/${targets_export_name}.cmake)
+
+    # Install version, config and target files.
+    install(
+            FILES ${project_config} ${version_config}
+            DESTINATION ${SIMFOR_CMAKE_DIR})
+    install(EXPORT ${targets_export_name} DESTINATION ${SIMFOR_CMAKE_DIR}
+            NAMESPACE simfor::)
+
+    install(FILES "${pkgconfig}" DESTINATION "${SIMFOR_PKGCONFIG_DIR}")
+
+endif ()
+
 if (SIMFOR_BUILD_EXAMPLES)
-    include(cmake/utils.cmake)
     set(EXAMPLES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/examples")
     subdirlist(SUBDIRS ${EXAMPLES_DIR})
     foreach (subdir ${SUBDIRS})
@@ -119,5 +209,5 @@ if (SIMFOR_BUILD_EXAMPLES)
 endif ()
 
 if (SIMFOR_BUILD_DOCS)
-    include(cmake/doxygen.cmake)
+    include(doxygen)
 endif ()

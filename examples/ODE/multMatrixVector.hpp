@@ -83,7 +83,7 @@ void prod_mpi ( const matrix<E1> &A, const vector<E2> &b, vector<double> &c )
         {
         world.Send ( &from, 1, MPI::INT, 0, 1);
         world.Send ( &to, 1, MPI::INT, 0, 2 );
-        world.Send ( &c ( from ), ( to - from ), MPI::double, 0, 3);
+        world.Send ( &c ( from ), ( to - from ), MPI::DOUBLE, 0, 3);
         }
     else
         {
@@ -91,7 +91,7 @@ void prod_mpi ( const matrix<E1> &A, const vector<E2> &b, vector<double> &c )
             {
             world.Recv ( &from, 1, MPI::INT, i, 1, status );
             world.Recv ( &to, 1, MPI::INT, i, 2, status );
-            world.Recv ( &c ( from ), ( to - from ), MPI::double, i, 3, status );
+            world.Recv ( &c ( from ), ( to - from ), MPI::DOUBLE, i, 3, status );
             }
         }
     MPI::Finalize();
@@ -125,7 +125,7 @@ vector<double> prod_mpi ( const matrix<E1> &A, const vector<E2> &b )
         {
         world.Send ( &from, 1, MPI::INT, 0, 1);
         world.Send ( &to, 1, MPI::INT, 0, 2 );
-        world.Send ( &c ( from ), ( to - from ), MPI::double, 0, 3);
+        world.Send ( &c ( from ), ( to - from ), MPI::DOUBLE, 0, 3);
         }
     else
         {
@@ -133,7 +133,7 @@ vector<double> prod_mpi ( const matrix<E1> &A, const vector<E2> &b )
             {
             world.Recv ( &from, 1, MPI::INT, i, 1, status );
             world.Recv ( &to, 1, MPI::INT, i, 2, status );
-            world.Recv ( &c ( from ), ( to - from ), MPI::double, i, 3, status );
+            world.Recv ( &c ( from ), ( to - from ), MPI::DOUBLE, i, 3, status );
             }
         }
     //MPI::Finalize();
