@@ -47,6 +47,15 @@ set(SIMFOR_INCLUDES
 
         include/simfor/plotter.h
 
+	include/simfor/classic.hpp
+        include/simfor/classic_omp.hpp
+        include/simfor/strassen.hpp
+        include/simfor/strassen_omp.hpp
+        include/simfor/strassen_recursive.hpp
+        include/simfor/strassen_recursive_omp.hpp
+        include/simfor/cblock.hpp
+        include/simfor/cblock_omp.hpp
+        include/simfor/multiplyVectorMatrix.hpp
         # Private API includes
         include/simfor/internal/types.hpp
 )
@@ -78,6 +87,16 @@ set(SIMFOR_SOURCES
         src/elementary.cpp
 
         src/plotter.cpp
+        
+        src/classic.cpp
+        src/classic_omp.cpp
+        src/strassen.cpp
+        src/strassen_omp.cpp
+        src/strassen_recursive.cpp
+        src/strassen_recursive_omp.cpp
+        src/cblock.cpp
+        src/cblock_omp.cpp
+        src/multiplyVectorMatrix.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})
