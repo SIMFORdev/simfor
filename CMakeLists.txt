@@ -43,32 +43,32 @@ add_compile_options(-O3 -fPIC)
 
 set(SIMFOR_INCLUDES
         # Public API includes
-        include/simfor/Gauss.hpp
-        include/simfor/GaussOmp.hpp
-        include/simfor/GaussMpi.hpp
-        include/simfor/Zeidel.hpp
-        include/simfor/ZeidelOmp.hpp
-        include/simfor/ZeidelMpi.hpp
-        include/simfor/LUdecomp.hpp
-        include/simfor/LUdecompOmp.hpp
-        include/simfor/SimpleIter.hpp
-        include/simfor/SimpleIterOmp.hpp
-        include/simfor/SimpleIterMpi.hpp
-        include/simfor/Gradients.hpp
-        include/simfor/GradientsOmp.hpp
-        include/simfor/GradientsMpi.hpp
-        include/simfor/Tridiagonal.hpp
-        include/simfor/TridiagonalOmp.hpp
-        include/simfor/TridiagonalMpi.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/Gauss.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/GaussOmp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/GaussMpi.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/Zeidel.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/ZeidelOmp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/ZeidelMpi.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/LUdecomp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/LUdecompOmp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/SimpleIter.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/SimpleIterOmp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/SimpleIterMpi.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/Gradients.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/GradientsOmp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/GradientsMpi.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/Tridiagonal.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/TridiagonalOmp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/TridiagonalMpi.hpp
 
-        include/simfor/odu.hpp
-        include/simfor/elementary.hpp
-        include/simfor/classic.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/odu.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/elementary.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/classic.hpp
 
-        include/simfor/plotter.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/plotter.h
 
         # Private API includes
-        include/simfor/internal/types.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/internal/types.hpp
 )
 
 set(SIMFOR_SOURCES
@@ -175,14 +175,14 @@ if (SIMFOR_INSTALL)
 
     set(INSTALL_TARGETS simfor)
 
-    message(STATUS ${SIMFOR_INC_DIR})
-
     # Install the library and headers.
     install(TARGETS ${INSTALL_TARGETS} EXPORT ${targets_export_name}
             LIBRARY DESTINATION ${SIMFOR_LIB_DIR}
             ARCHIVE DESTINATION ${SIMFOR_LIB_DIR}
             PUBLIC_HEADER DESTINATION "${SIMFOR_INC_DIR}/simfor"
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+    install(FILES ${SIMFOR_INCLUDES} DESTINATION include/simfor)
 
     # Use a namespace because CMake provides better diagnostics for namespaced
     # imported targets.
