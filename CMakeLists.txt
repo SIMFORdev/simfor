@@ -26,7 +26,6 @@ set(SIMFOR_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/odu.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/elementary.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/classic.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/SomeClass.hpp
         # Private API includes
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/internal/types.hpp
 )
@@ -37,7 +36,6 @@ set(SIMFOR_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/src/odu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/classic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/elementary.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/SomeClass.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})

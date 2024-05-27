@@ -16,13 +16,13 @@ int main ( int argc, char **argv )
     for ( unsigned i = 0; i < n; i++ )
         for ( unsigned j = 0; j < n; j++ )
             {
-            matrix ( i, j ) = 1;
-            vector ( i ) = 2;
+            matrix ( i, j ) = 1.2365413;
+            vector ( i ) = 2.1234879817;
             }
     double start, end;
     start = omp_get_wtime();
     omp_set_num_threads ( p );
     res = simfor::multMatrVec_omp ( matrix, vector );
     end = omp_get_wtime();
-    std::cout << end - start << "\t" << "\n";
+    std::cout << res << "\n" << end - start << "\n";
     }

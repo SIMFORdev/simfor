@@ -28,36 +28,36 @@ vec multMatrVec ( const E1 &A, const E2 &b )
     return v;
     }
 
-// template<class E1, class E2>
-// vec multMatrVec_omp ( const E1 &A, const E2 &b )
-//     {
-//     int n = A.size1() == b.size() ? b.size() : 0;
-//     vec v ( n, 0 );
-//     #pragma omp parallel for collapse(2) schedule(auto)
-//     for ( int i = 0; i < n; i++ )
-//         {
-//         //#pragma omp simd reduction(+:sum)
-//         for ( int j = 0; j < b.size(); j++ )
-//             v ( i ) += A ( i, j ) * b ( j );
-//         }
-//     return v;
-//     }
-
 template<class E1, class E2>
 vec multMatrVec_omp ( const E1 &A, const E2 &b )
     {
-    int n = A.size2() == b.size() ? b.size() : 0;
-    vec v ( n );
-
-    #pragma omp parallel for shared( A, b, v) schedule(auto)
+    int n = A.size1() == b.size() ? b.size() : 0;
+    vec v ( n, 0 );
+    #pragma omp parallel for schedule(auto)
     for ( int i = 0; i < n; i++ )
         {
+        //#pragma omp simd reduction(+:sum)
         for ( int j = 0; j < b.size(); j++ )
             v ( i ) += A ( i, j ) * b ( j );
-
         }
     return v;
     }
+
+// template<class E1, class E2>
+// vec multMatrVec_omp ( const E1 &A, const E2 &b )
+//     {
+//     int n = A.size2() == b.size() ? b.size() : 0;
+//     vec v ( n );
+//
+//     #pragma omp parallel for shared( A, b, v) schedule(auto)
+//     for ( int i = 0; i < n; i++ )
+//         {
+//         for ( int j = 0; j < b.size(); j++ )
+//             v ( i ) += A ( i, j ) * b ( j );
+//
+//         }
+//     return v;
+//     }
 
 
 template<class E1, class E2>

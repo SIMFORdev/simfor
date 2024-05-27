@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.21)
 project(BOOST_ODE)
 
+find_package(Matplot++ REQUIRED)
 
 set(ODE_FILES
     odu_func.cpp
-    sodu_test.cpp
+    ode_func.cpp
+    sodu_func.cpp
+    sodu_matr.cpp
     boost_bench_sodu.cpp
     boost_bench_sodu_omp.cpp
     boost_bench_sodu_mpi.cpp
@@ -17,5 +20,5 @@ set(ODE_FILES
 foreach(EXE ${ODE_FILES})
     string(REPLACE ".cpp" "" EXE_NAME ${EXE})
     add_executable(${EXE_NAME} ${EXE})
-    target_link_libraries(${EXE_NAME} PUBLIC simfor)
+    target_link_libraries(${EXE_NAME} PUBLIC simfor Matplot++::matplot)
 endforeach()
