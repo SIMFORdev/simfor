@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 
-simfor::vec lorenz ( float t, simfor::vec a )
+simfor::vec lorenz ( double t, simfor::vec a )
     {
     float sigma = 10, beta = 8/3, rho = 28;
     simfor::vec df ( a.size() );
@@ -16,7 +16,7 @@ simfor::vec lorenz ( float t, simfor::vec a )
     return df;
     }
 
-simfor::vec Van_der_Pol(float t, simfor::vec a)
+simfor::vec Van_der_Pol(double t, simfor::vec a)
     {
     float mu = 10;
     simfor::vec oscil ( a.size() );

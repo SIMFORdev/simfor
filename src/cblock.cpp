@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "simfor/cblock.hpp"
+#include "simfor/classic_omp.hpp"
 
 using namespace std;
 
