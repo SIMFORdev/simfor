@@ -49,7 +49,7 @@ class vector
             std::memcpy ( _data, mat, size * sizeof ( T ) );
             }
 
-        vector ( unsigned size, float a )
+        vector ( unsigned size, double a )
             {
             _size = size;
             _data = ( T * ) malloc ( size * sizeof ( T ) );
@@ -59,7 +59,7 @@ class vector
 
         explicit vector ( std::ifstream &file )
             {
-            float a;
+            double a;
             T *x = _NULL;
             unsigned n1;
             if ( file.is_open() )
@@ -69,7 +69,7 @@ class vector
                     {
                     throw std::invalid_argument ( "ERR_NOT_VALID_FILE_DATA" );
                     }
-                x = new float[n1];
+                x = new double[n1];
                 for ( unsigned j = 0; j < n1; j++ )
                     {
                     file >> a;
@@ -168,7 +168,7 @@ class vector
                 throw std::invalid_argument ( "ERR_DIFFERENT_DIMENSIONS" );
                 }
             vector tmp ( _size );
-            float *endptr = _data + _size;
+            double *endptr = _data + _size;
             for ( int i = 0; i < _size; i++ )
                 tmp ( i ) = _data[i]-v ( i );
             return tmp;
@@ -235,7 +235,7 @@ class vector
             return *this;
             }
 
-        vector &operator*= ( float a )
+        vector &operator*= ( double a )
             {
             vector<T> s( *this*a );
             *this = s;

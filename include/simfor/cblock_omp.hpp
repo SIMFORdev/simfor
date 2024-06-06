@@ -1,7 +1,7 @@
 #ifndef SIMFOR_CBLOCK_OMP_HPP_
 #define SIMFOR_CBLOCK_OMP_HPP_
 
-#include <simfor/internal/types.hpp>
+#include <simfor/types.hpp>
 #include "simfor/classic_omp.hpp"
 
 namespace simfor{

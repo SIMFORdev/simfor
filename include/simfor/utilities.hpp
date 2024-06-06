@@ -1,7 +1,7 @@
 #ifndef SIMFOR_UTILITIES_HPP
 #define SIMFOR_UTILITIES_HPP
 
-#include "internal/types.hpp"
+#include <simfor/types.hpp>
 namespace simfor
 {
 double koef_matrix_settings ( unsigned j, unsigned i, unsigned n )

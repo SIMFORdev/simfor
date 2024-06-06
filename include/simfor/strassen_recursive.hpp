@@ -1,7 +1,7 @@
 #ifndef SIMFOR_STRASSEN_RECURSIVE_HPP_
 #define SIMFOR_STRASSEN_RECURSIVE_HPP_
 
-#include <simfor/internal/types.hpp>
+#include <simfor/types.hpp>
 #include "simfor/classic.hpp"
 
 namespace simfor{

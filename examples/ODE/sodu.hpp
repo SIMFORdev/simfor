@@ -10,34 +10,34 @@
 namespace simfor
 {
 //коэффаценты соотв. методов
-float adams_bashford_koeff( int );
-float adams_moulton_koeff( int );
+double adams_bashford_koeff( int );
+double adams_moulton_koeff( int );
 
 //метотоды Адамса-Милна
-matrix<float> AdMiln_system_solve_matrix ( float, int, vector<float>, matrix<float> );
-matrix<float> AdMiln_system_solve_matrix_omp ( float, int, vector<float>, matrix<float> );
-matrix<float> AdMiln_system_solve_matrix_mpi ( float, int, vector<float>, matrix<float> );
+matrix<double> AdMiln_system_solve_matrix ( double, int, vector<double>, matrix<double> );
+matrix<double> AdMiln_system_solve_matrix_omp ( double, int, vector<double>, matrix<double> );
+matrix<double> AdMiln_system_solve_matrix_mpi ( double, int, vector<double>, matrix<double> );
 
 //метотоды Адамса-БашфортаW
-matrix<float> adams5_system_solve_matrix ( float, int, vector<float>, matrix<float> );
-matrix<float> adams5_system_solve_matrix_omp ( float, int, vector<float>, matrix<float> );
-matrix<float> adams5_system_solve_matrix_mpi ( float, int, vector<float>, matrix<float> );
+matrix<double> adams5_system_solve_matrix ( double, int, vector<double>, matrix<double> );
+matrix<double> adams5_system_solve_matrix_omp ( double, int, vector<double>, matrix<double> );
+matrix<double> adams5_system_solve_matrix_mpi ( double, int, vector<double>, matrix<double> );
 
 //метотоды Адамса-Моултона
 
-matrix<float> AdMltn_system_solve_matrix ( float, int, vector<float>, matrix<float> );
-matrix<float> AdMltn_system_solve_matrix_omp ( float, int, vector<float>, matrix<float> );
-matrix<float> AdMltn_system_solve_matrix_mpi ( float, int, vector<float>, matrix<float> );
+matrix<double> AdMltn_system_solve_matrix ( double, int, vector<double>, matrix<double> );
+matrix<double> AdMltn_system_solve_matrix_omp ( double, int, vector<double>, matrix<double> );
+matrix<double> AdMltn_system_solve_matrix_mpi ( double, int, vector<double>, matrix<double> );
 
 //eiler
-matrix<float> eiler_system_solve_matrix ( float, int, vector<float>, matrix<float>);
-matrix<float> eiler_system_solve_matrix_omp ( float, int, vector<float>, matrix<float>);
-matrix<float> eiler_system_solve_matrix_mpi ( float, int, vector<float>, matrix<float>);
+matrix<double> eiler_system_solve_matrix ( double, int, vector<double>, matrix<double>);
+matrix<double> eiler_system_solve_matrix_omp ( double, int, vector<double>, matrix<double>);
+matrix<double> eiler_system_solve_matrix_mpi ( double, int, vector<double>, matrix<double>);
 
 //rk(Runge-Kutta)
-matrix<float> rk_system_solve_matrix ( float, int, vector<float>, matrix<float>);
-matrix<float> rk_system_solve_matrix_omp ( float, int, vector<float>, matrix<float>);
-matrix<float> rk_system_solve_matrix_mpi ( float, int, vector<float>, matrix<float>);
+matrix<double> rk_system_solve_matrix ( double, int, vector<double>, matrix<double>);
+matrix<double> rk_system_solve_matrix_omp ( double, int, vector<double>, matrix<double>);
+matrix<double> rk_system_solve_matrix_mpi ( double, int, vector<double>, matrix<double>);
 }
 
 #endif

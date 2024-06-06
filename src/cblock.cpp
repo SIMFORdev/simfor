@@ -7,6 +7,12 @@ using namespace std;
 
 namespace simfor{
 
+vec cblock(vec c,vec  b, int n, int N)
+{
+	vec a(n*n,0.0);
+	return a;
+}
+
 vec cblock_omp(vec c,vec  b, int n, int N)
 {
 	int i,j,k,ii,jj,kk;

@@ -5,8 +5,8 @@
 int main ( int argc, char **argv )
     {
     unsigned n = atoi ( argv[1] ), p = atoi( argv[2] );
-    simfor::vector<float> v ( n ), res;
-    simfor::matrix<float> M ( n, n );
+    simfor::vector<double> v ( n ), res;
+    simfor::matrix<double> M ( n, n );
     for ( unsigned i = 0; i < n; i++ )
         for ( unsigned j = 0; j < n; j++ )
             {

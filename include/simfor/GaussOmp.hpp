@@ -1,7 +1,7 @@
 #ifndef SIMFOR_GAUSS_OMP_HPP_
 #define SIMFOR_GAUSS_OMP_HPP_
 
-#include <simfor/internal/types.hpp>
+#include <simfor/types.hpp>
 
 namespace simfor{
     vec GaussianEliminationOmp(matr &mat, int N);

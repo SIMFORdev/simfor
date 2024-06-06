@@ -1,7 +1,7 @@
 #ifndef SIMFOR_ELEMENTARY_HPP
 #define SIMFOR_ELEMENTARY_HPP
 
-#include "internal/types.hpp"
+#include <simfor/types.hpp>
 #include <omp.h>
 #include <boost/mpi.hpp>
 

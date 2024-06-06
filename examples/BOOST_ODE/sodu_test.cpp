@@ -6,7 +6,7 @@
 
 simfor::vec lorenz ( double t, simfor::vec a )
     {
-    float sigma = 10, beta = 8/3, rho = 28;
+    double sigma = 10, beta = 8/3, rho = 28;
     simfor::vec df ( a.size() );
 
     df ( 0 ) = -sigma*a ( 0 ) + sigma*a ( 1 );
@@ -18,7 +18,7 @@ simfor::vec lorenz ( double t, simfor::vec a )
 
 simfor::vec Van_der_Pol(double t, simfor::vec a)
     {
-    float mu = 10;
+    double mu = 10;
     simfor::vec oscil ( a.size() );
     oscil ( 0 ) = a ( 1 );
     oscil ( 1 ) = mu*( 1 - a(0)*a(0))*a(1) - a(0);
@@ -44,7 +44,7 @@ int main()
     simfor::vec v ( 3 );
 
     v ( 0 ) = 10; v ( 1 ) = v ( 2 ) = 1;
-    float a = 0., b = 100., h;
+    double a = 0., b = 100., h;
 
     int n = 10000;
     h = 0.01 ;

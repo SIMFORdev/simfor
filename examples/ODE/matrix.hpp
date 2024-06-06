@@ -66,7 +66,7 @@ class matrix
             std::memcpy ( _data, mat, size1*size2 * sizeof ( T ) );
             }
 
-        matrix ( unsigned size1, unsigned size2, float a )
+        matrix ( unsigned size1, unsigned size2, double a )
             {
             _size1 = size1;
             _size2 = size2;
@@ -190,8 +190,8 @@ class matrix
                 throw std::invalid_argument ( "ERR_DIFFERENT_DIMENSIONS" );
                 }
             matrix tmp ( _size1, _size2 );
-            float *endptr = _data + _size1*_size2;
-            for ( float *i = _data, *j = M._data, *tmp_prt = tmp._data; i < endptr; i++, j++, tmp_prt++ )
+            double *endptr = _data + _size1*_size2;
+            for ( double *i = _data, *j = M._data, *tmp_prt = tmp._data; i < endptr; i++, j++, tmp_prt++ )
                 *tmp_prt = *i - *j;
             return tmp;
             }
@@ -211,13 +211,13 @@ class matrix
                 throw std::invalid_argument ( "ERR_DIFFERENT_DIMENSIONS" );
                 }
             matrix tmp ( _size1, _size2 );
-            float *endptr = _data + _size1*_size2;
-            for ( float *i = _data, *j = M._data, *tmp_prt = tmp._data; i < endptr; i++, j++, tmp_prt++ )
+            double *endptr = _data + _size1*_size2;
+            for ( double *i = _data, *j = M._data, *tmp_prt = tmp._data; i < endptr; i++, j++, tmp_prt++ )
                 *tmp_prt = *i + *j;
             return tmp;
             }
 
-        matrix operator* ( float a ) const
+        matrix operator* ( double a ) const
             {
             if ( _data == _NULL )
                 {
@@ -244,7 +244,7 @@ class matrix
             return *this;
             }
 
-        matrix &operator*= ( float a )
+        matrix &operator*= ( double a )
             {
             matrix<T> S( *this*a );
             *this = S;
@@ -287,7 +287,7 @@ class matrix
             return out;
             }
 
-        friend matrix operator* ( float a, const matrix &v )
+        friend matrix operator* ( double a, const matrix &v )
             {
             return v*a;
             }
