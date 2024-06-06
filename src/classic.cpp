@@ -1,59 +1,20 @@
-#include <chrono>
-#include <simfor/elementary.hpp>
-#include <boost/operators.hpp>
+#include <iostream>
+#include <cmath>
+#include "simfor/classic.hpp"
 
-/*test time globs
-std::clock_t T1, T2;
-double RT1, RT2;
-T1 = std::clock();
-T2 = std::clock();*/
+using namespace std;
 
-namespace simfor
-{
-double scalar_mult ( vec a, vec b )
-    {
-    double res = 0;
-    for ( int i = 0; i < a.size(); ++i )
-        res += a ( i ) * b ( i );
-    return res;
-    }
+namespace simfor{
 
-double scalar_mult_omp ( vec a, vec b )
-    {
-    unsigned i;
-    double res = 0;
-    #pragma omp parallel for reduction(+ : res)
-    for ( i = 0; i < a.size(); ++i )
-        res += a[i] * b[i];
-    return res;
-    }
+     vec classic(vec a, vec b, int n){
+       vec c(n*n);
+	for(unsigned i = 0;i<n*n;i++)
+    		c(i)=0;
+	for(unsigned i = 0;i<n;i++)
+	for(unsigned j=0;j<n;j++)
+	for(unsigned k=0;k<n;k++)
+		c(k*n+i)+=a(k*n+j)*b(j*n+i);
 
-double scalar_mult_mpi ( vec a, vec b )
-    {
-    boost::mpi::communicator world;
-
-    int p = world.size();
-    int r = world.rank();
-    int n = a.size();
-    double s;
-
-    int cnt = n / p;
-    int from = r * cnt;
-    int to = n;
-
-
-    //boost::mpi::timer t;
-    //t.restart();
-
-    if ( r != p-1 ) to = from + cnt;
-
-    for ( int i = from; i < to; ++i )
-        s += a ( i ) * b ( i );
-    world.barrier ();
-
-    if ( !r ) reduce ( world, s, std::plus<double>(), 0 );
-
-    return s;
-
-    }
+    return c;
+}
 }

@@ -65,9 +65,17 @@ set(SIMFOR_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/elementary.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/classic.hpp
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/classic_omp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/strassen.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/strassen_omp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/strassen_recursive.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/strassen_recursive_omp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/cblock.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/cblock_omp.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/multiplyVectorMatrix.hpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/plotter.h
 
-        # Private API includes
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/types.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/version.hpp
 )
@@ -94,10 +102,19 @@ set(SIMFOR_SOURCES
         src/TridiagonalMpi.cpp
 
         src/odu.cpp
-        src/classic.cpp
         src/elementary.cpp
 
         src/plotter.cpp
+
+        src/classic.cpp
+        src/classic_omp.cpp
+        src/strassen.cpp
+        src/strassen_omp.cpp
+        src/strassen_recursive.cpp
+        src/strassen_recursive_omp.cpp
+        src/cblock.cpp
+        src/cblock_omp.cpp
+        src/multiplyVectorMatrix.cpp
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SIMFOR_SOURCES})

@@ -1,10 +1,11 @@
-#ifndef SIMFOR_CLASSIC_HPP
-#define SIMFOR_CLASSIC_HPP
+#ifndef SIMFOR_CLASSIC_HPP_
+#define SIMFOR_CLASSIC_HPP_
 
-#include <omp.h>
 #include <simfor/types.hpp>
 
 namespace simfor{
+	vec classic(vec a, vec b, int n);
+
     double scalar_mult(vec a, vec b);
 
     double scalar_mult_omp(vec a, vec b);
