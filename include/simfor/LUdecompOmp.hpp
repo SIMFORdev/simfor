@@ -1,7 +1,7 @@
 #ifndef SIMFOR_LUDECOMP_OMP_HPP_
 #define SIMFOR_LUDECOMP_OMP_HPP_
 
-#include <simfor/internal/types.hpp>
+#include <simfor/types.hpp>
 
 namespace simfor{
     /* INPUT: A - array of pointers to rows of a square matrix having dimension N

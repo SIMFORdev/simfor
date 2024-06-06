@@ -26,7 +26,7 @@ set(SIMFOR_INC_DIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE STRING
         "Installation directory for include files, a relative path that will be
             joined with ${CMAKE_INSTALL_PREFIX} or an absolute path.")
 
-file(READ include/simfor/internal/version.hpp version_h)
+file(READ include/simfor/version.hpp version_h)
 if (NOT version_h MATCHES "SIMFOR_VERSION ([0-9]+)([0-9][0-9])([0-9][0-9])")
     message(FATAL_ERROR "Cannot get SIMFOR_VERSION from version.h.")
 endif ()
@@ -68,7 +68,8 @@ set(SIMFOR_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/plotter.h
 
         # Private API includes
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/internal/types.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/types.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/version.hpp
 )
 
 set(SIMFOR_SOURCES

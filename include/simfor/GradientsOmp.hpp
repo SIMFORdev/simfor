@@ -1,7 +1,7 @@
 #ifndef SIMFOR_GRADIENTS_OMP_HPP_
 #define SIMFOR_GRADIENTS_OMP_HPP_
 
-#include <simfor/internal/types.hpp>
+#include <simfor/types.hpp>
 
 namespace simfor{
 

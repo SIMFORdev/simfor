@@ -1,7 +1,7 @@
 #ifndef SIMFOR_MATMULT_HPP
 #define SIMFOR_MATMULT_HPP
 
-#include "internal/types.hpp"
+#include <simfor/types.hpp>
 #include <boost/mpi.hpp>
 #include <boost/mpi/collectives.hpp>
 #include <omp.h>

@@ -1,7 +1,7 @@
 #ifndef SIMFOR_GAUSS_MPI_HPP_
 #define SIMFOR_GAUSS_MPI_HPP_
 
-#include <simfor/internal/types.hpp>
+#include <simfor/types.hpp>
 #include <boost/mpi.hpp>
 namespace mpi = boost::mpi;
 

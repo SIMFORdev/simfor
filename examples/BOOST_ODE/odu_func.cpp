@@ -1,5 +1,5 @@
 #include <simfor/odu.hpp>
-#include <simfor/internal/types.hpp>
+#include <simfor/types.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <cmath>
 #include <iostream>

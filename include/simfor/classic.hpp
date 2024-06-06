@@ -2,7 +2,7 @@
 #define SIMFOR_CLASSIC_HPP
 
 #include <omp.h>
-#include "internal/types.hpp"
+#include <simfor/types.hpp>
 
 namespace simfor{
     double scalar_mult(vec a, vec b);

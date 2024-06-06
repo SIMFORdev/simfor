@@ -3,7 +3,7 @@
 
 #include <omp.h>
 #include <boost/mpi.hpp>
-#include "internal/types.hpp"
+#include <simfor/types.hpp>
 #include "elementary.hpp"
 #include "simfor/multMatrVec.hpp"
 #include <iostream>
