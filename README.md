@@ -6,41 +6,25 @@
 3) MPI
 4) GLUT 
 5) OpenGL
-6) \*для выполнения установки советую использовать утилиту checkinstall
+6) \*для выполнения установки советую использовать утилиту checkinstall 
 
-## Добавление в проект
-```cmake
-cmake_minimum_required(VERSION 3.23)
-project(TestProject)
-
-set(CMAKE_CXX_STANDARD 17)
-
-add_subdirectory(simfor)
-
-add_executable(${PROJECT_NAME} main.cpp)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC simfor)
-```
-
-## Запуск примеров
+## Установка всех зависимостей
 ```shell
-mkdir build
-cd build
-cmake ..
-make
-# Пусть наша папка в которой мы работаем называется examples/SomeClassTest.
-cd examples
+sudo apt update
+sudo apt upgrade
+sudo apt install wget make cmake build-essential g++ checkinstall libopenmpi-dev mesa-utils freeglut3-dev
+
+wget https://archives.boost.io/release/1.84.0/source/boost_1_84_0.tar.gz
+tar -xvf boost_1_84_0.tar.gz
+cd boost_1_84_0/
+./bootstrap.sh
+echo "using mpi ;" >> project-config.jam
+sudo ./b2 install
 ```
 
-## Установка
-Установку библиотеки можно выполнить с помощью скрипта `install-proj`, либо вручную.
-```shell
-mkdir build && cd build 
-cmake ..
-make -j 8
-sudo checkinstall
-```
-После установки добавление в проект
+## Установка SIMFOR
+Установку SIMFOR можно выполнить с помощью скрипта `install-proj`, либо вручную.
+После установки её можно добавить в проект следующим образом:
 ```cmake
 cmake_minimum_required(VERSION 3.23)
 project(TestProject)
@@ -64,4 +48,27 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         ${GLUT_LIBRARY}
         OpenMP::OpenMP_CXX
 )
+```
+
+## Добавление в проект как сабмодуль
+```cmake
+cmake_minimum_required(VERSION 3.23)
+project(TestProject)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_subdirectory(simfor)
+
+add_executable(${PROJECT_NAME} main.cpp)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC simfor)
+```
+
+## Запуск примеров
+```shell
+mkdir build
+cd build
+cmake ..
+make
+cd examples # тут хранятся примеры по папкам, в консоли их можно позапускать
 ```
