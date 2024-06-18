@@ -1,6 +1,6 @@
-sudo rm -rd build
-mkdir build 
-cd build 
+mkdir simfor
+cd simfor
 cmake ..
 make -j 8
 sudo checkinstall
+sudo rm -rd simfor
