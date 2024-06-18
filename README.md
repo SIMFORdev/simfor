@@ -23,7 +23,10 @@ sudo ./b2 install
 ```
 
 ## Установка SIMFOR
-Установку SIMFOR можно выполнить с помощью скрипта `install-proj`, либо вручную.
+Установку SIMFOR можно выполнить с помощью скрипта `install-proj`, либо вручную. Когда будет диалоговые окна (у `checkinstall`)
+можно прокликать `enter` до момента `Should I exclude them from the package? (Saying yes is a good idea)`. Тут следует нажать
+английскую букву `y`, и после нажать `enter`.
+
 После установки её можно добавить в проект следующим образом:
 ```cmake
 cmake_minimum_required(VERSION 3.23)

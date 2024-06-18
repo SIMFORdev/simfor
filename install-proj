@@ -3,4 +3,5 @@ cd simfor
 cmake ..
 make -j 8
 sudo checkinstall
+cd ..
 sudo rm -rd simfor
