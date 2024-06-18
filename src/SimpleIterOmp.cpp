@@ -1,5 +1,5 @@
-#include "omp.h"
-#include "simfor/SimpleIterOmp.hpp"
+#include <omp.h>
+#include <simfor/SimpleIterOmp.hpp>
 
 namespace simfor{
 

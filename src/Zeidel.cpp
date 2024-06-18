@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "simfor/Zeidel.hpp"
+#include <simfor/Zeidel.hpp>
 
 using namespace std;
 

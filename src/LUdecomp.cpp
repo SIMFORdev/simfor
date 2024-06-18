@@ -1,4 +1,4 @@
-#include "simfor/LUdecomp.hpp"
+#include <simfor/LUdecomp.hpp>
 
 namespace simfor{
 

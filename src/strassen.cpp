@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
-#include "simfor/classic.hpp"
-#include "simfor/strassen.hpp"
+#include <simfor/classic.hpp>
+#include <simfor/strassen.hpp>
 
 using namespace std;
 

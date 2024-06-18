@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <omp.h>
-#include "simfor/ZeidelOmp.hpp"
+#include <simfor/ZeidelOmp.hpp>
 
 using namespace std;
 

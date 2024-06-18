@@ -1,4 +1,4 @@
-#include "simfor/GaussMpi.hpp"
+#include <simfor/GaussMpi.hpp>
 
 namespace simfor
 {

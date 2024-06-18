@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cmath>
-#include "simfor/strassen_omp.hpp"
-#include "simfor/classic_omp.hpp"
-#include "simfor/classic.hpp"
+#include <simfor/strassen_omp.hpp>
+#include <simfor/classic_omp.hpp>
+#include <simfor/classic.hpp>
 
 using namespace std;
 

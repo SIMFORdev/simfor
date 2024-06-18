@@ -1,5 +1,5 @@
 #include <iostream>
-#include "simfor/GaussOmp.hpp"
+#include <simfor/GaussOmp.hpp>
 
 namespace simfor{
 

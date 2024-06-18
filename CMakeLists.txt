@@ -14,8 +14,8 @@ include(GNUInstallDirs)
 find_package(Boost 1.84.0 COMPONENTS mpi REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(MPI REQUIRED)
-find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
+find_package(OpenGL REQUIRED)
 
 option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
 option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
@@ -73,6 +73,7 @@ set(SIMFOR_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/cblock.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/cblock_omp.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/multiplyVectorMatrix.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/multMatrVec.hpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/include/simfor/plotter.h
 
@@ -138,9 +139,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_link_libraries(${PROJECT_NAME} PUBLIC
         ${Boost_LIBRARIES}
         ${MPI_CXX_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+        ${GLUT_LIBRARY}
         OpenMP::OpenMP_CXX
-        GL
-        glut
 )
 
 target_compile_options(${PROJECT_NAME} PUBLIC

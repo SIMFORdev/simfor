@@ -1,4 +1,4 @@
-#include "simfor/SimpleIterMpi.hpp"
+#include <simfor/SimpleIterMpi.hpp>
 
 namespace simfor{
 

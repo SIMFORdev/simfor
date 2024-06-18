@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#include "simfor/Gauss.hpp"
+#include <simfor/Gauss.hpp>
 
 namespace simfor{
 
