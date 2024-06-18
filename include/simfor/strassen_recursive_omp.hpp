@@ -3,8 +3,8 @@
 
 #include <simfor/types.hpp>
 
-#include "simfor/classic_omp.hpp"
-#include "simfor/strassen_recursive.hpp"
+#include <simfor/classic_omp.hpp>
+#include <simfor/strassen_recursive.hpp>
 
 namespace simfor{
  	vec strassen_recursive_omp(vec a, vec  b, int n);

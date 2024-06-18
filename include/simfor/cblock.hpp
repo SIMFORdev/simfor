@@ -2,7 +2,7 @@
 #define SIMFOR_CBLOCK_HPP_
 
 #include <simfor/types.hpp>
-#include "simfor/classic.hpp"
+#include <simfor/classic.hpp>
 
 namespace simfor{
      vec cblock(vec c,vec  b, int n, int N);

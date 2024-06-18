@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "simfor/classic.hpp"
+#include <simfor/classic.hpp>
 
 using namespace std;
 

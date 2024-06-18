@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "simfor/multiplyVectorMatrix.hpp"
+#include <simfor/multiplyVectorMatrix.hpp>
 
 using namespace std;
 

@@ -1,8 +1,8 @@
 #include <cmath>           //
 #include <numeric>         //inner_product - скалярное произведение векторов       
 
-#include "omp.h"
-#include "simfor/GradientsOmp.hpp"
+#include <omp.h>
+#include <simfor/GradientsOmp.hpp>
 
 namespace simfor{
 

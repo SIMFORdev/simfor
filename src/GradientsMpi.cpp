@@ -1,6 +1,6 @@
 #include <cmath>           //
 #include <numeric>         //inner_product - скалярное произведение векторов
-#include "simfor/GradientsMpi.hpp"
+#include <simfor/GradientsMpi.hpp>
 #include <iostream>
 
 namespace simfor{
