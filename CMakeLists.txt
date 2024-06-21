@@ -55,6 +55,8 @@ set(SIMFOR_INCLUDES
         include/simfor/strassen_recursive_omp.hpp
         include/simfor/cblock.hpp
         include/simfor/cblock_omp.hpp
+        include/simfor/Vineyard_omp.hpp
+        include/simfor/Vineyard.hpp
         include/simfor/multiplyVectorMatrix.hpp
         # Private API includes
         include/simfor/internal/types.hpp
@@ -96,6 +98,8 @@ set(SIMFOR_SOURCES
         src/strassen_recursive_omp.cpp
         src/cblock.cpp
         src/cblock_omp.cpp
+        src/Vineyard.cpp
+        src/Vineyard_omp.cpp
         src/multiplyVectorMatrix.cpp
 )
 
