@@ -10,22 +10,13 @@
 
 ## Установка всех зависимостей
 ```shell
-sudo apt update
-sudo apt upgrade
-sudo apt install wget make cmake build-essential g++ checkinstall libopenmpi-dev mesa-utils freeglut3-dev
-
-wget https://archives.boost.io/release/1.84.0/source/boost_1_84_0.tar.gz
-tar -xvf boost_1_84_0.tar.gz
-cd boost_1_84_0/
-./bootstrap.sh
-echo "using mpi ;" >> project-config.jam
-sudo ./b2 install
+./install-deps.sh
 ```
 
 ## Установка SIMFOR
-Установку SIMFOR можно выполнить с помощью скрипта `install-proj`, либо вручную. Когда будет диалоговые окна (у `checkinstall`)
-можно прокликать `enter` до момента `Should I exclude them from the package? (Saying yes is a good idea)`. Тут следует нажать
-английскую букву `y`, и после нажать `enter`.
+```shell
+./install-simfor.sh
+```
 
 После установки её можно добавить в проект следующим образом:
 ```cmake
