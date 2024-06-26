@@ -3,7 +3,7 @@
 
 echo "--- Installing dependencies from debian repositories"
 sudo apt update
-sudo apt install -y wget make cmake build-essential g++ checkinstall libopenmpi-dev mesa-utils freeglut3-dev
+sudo apt install -y wget make cmake build-essential g++ checkinstall libopenmpi-dev mesa-utils freeglut3-dev doxygen
 if [ $? -eq 0 ]; then
 	echo "--- Installing dependencies from debian repositories -- OK"
 else

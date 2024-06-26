@@ -19,7 +19,7 @@ find_package(OpenGL REQUIRED)
 
 option(SIMFOR_BUILD_TESTS "Build SIMFOR tests" OFF)
 option(SIMFOR_BUILD_EXAMPLES "Build SIMFOR examples" ON)
-option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" OFF)
+option(SIMFOR_BUILD_DOCS "Build SIMFOR documentation" ON)
 option(SIMFOR_INSTALL "Generate the install target" ON)
 
 set(SIMFOR_INC_DIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE STRING
